@@ -1,0 +1,31 @@
+image: gcc:latest
+
+variables:
+  PROJECT_DIR: "src/"
+
+stages:
+  - tests
+
+default:
+  tags:
+    - docker
+  before_script:
+    - apt-get update
+    - apt-get -y install check lcov clang-format valgrind cppcheck
+    - cd ${PROJECT_DIR}
+
+build_ok:
+  stage: tests
+  script:
+    - make
+
+tests:
+  stage: tests
+  script:
+    - make lint
+    - make test
+
+leaks_check:
+  stage: tests
+  script:
+    - make valgrind_tests
