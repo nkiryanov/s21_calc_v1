@@ -67,4 +67,4 @@ venv/
 .DS_Store
 
 # Cmake build folder
-src/build/
+build/
