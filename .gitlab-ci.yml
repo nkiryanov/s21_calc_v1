@@ -1,4 +1,4 @@
-image: gcc:latest
+image: ubuntu:latest
 
 variables:
   PROJECT_DIR: "src/"
@@ -11,7 +11,7 @@ default:
     - docker
   before_script:
     - apt-get update
-    - apt-get -y install check lcov clang-format valgrind cppcheck
+    - apt-get -y install check lcov clang-format valgrind cppcheck cmake
     - cd ${PROJECT_DIR}
 
 build_ok:
