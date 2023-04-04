@@ -8,7 +8,7 @@ static calc_node_t *calloc_node(void) {
     exit(0);
   }
 
-  calc_token_t empty_token = {.value = 0, .priority = 0};
+  calc_token_t empty_token = {.value = 0, .priority = 0, .code = 0};
 
   node->left = NULL;
   node->right = NULL;
@@ -17,7 +17,7 @@ static calc_node_t *calloc_node(void) {
   return node;
 }
 
-static calc_deque_t *calloc_deque(void) {
+calc_deque_t *deque_init(void) {
   calc_deque_t *deque = (calc_deque_t *)malloc(sizeof(calc_deque_t));
 
   if (deque == NULL) {
@@ -32,26 +32,14 @@ static calc_deque_t *calloc_deque(void) {
   return deque;
 }
 
-calc_deque_t *deque_init(calc_token_t token) {
-  calc_node_t *node = calloc_node();
-  calc_deque_t *deque = calloc_deque();
-
-  deque->size = 1;
-  deque->head = node;
-  deque->tail = node;
-
-  node->token = token;
-
-  return deque;
-}
-
 void deque_push_front(calc_deque_t *deque, calc_token_t token) {
   calc_node_t *node = calloc_node();
 
   node->token = token;
   node->right = deque->head;
 
-  deque->head->left = node;
+  if (deque->size != 0) deque->head->left = node;
+  if (deque->size == 0) deque->tail = node;
   deque->head = node;
   deque->size++;
 }
@@ -62,7 +50,8 @@ void deque_push_back(calc_deque_t *deque, calc_token_t token) {
   node->token = token;
   node->left = deque->tail;
 
-  deque->tail->right = node;
+  if (deque->size != 0) deque->tail->right = node;
+  if (deque->size == 0) deque->head = node;
   deque->tail = node;
   deque->size++;
 }
