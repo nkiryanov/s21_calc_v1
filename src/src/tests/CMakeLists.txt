@@ -1,5 +1,5 @@
-find_library(CHECK_LIB check REQUIRED)
-find_path(CHECK_INCLUDE check.h REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(CHECK REQUIRED check)
 
 add_executable(calc_tests_exec
     tests_main.c
@@ -8,10 +8,10 @@ add_executable(calc_tests_exec
 )
 
 target_link_libraries(calc_tests_exec
-    PRIVATE calc_rpn ${CHECK_LIB}
+    PRIVATE calc_rpn ${CHECK_LINK_LIBRARIES}
 )
 
 target_include_directories(
     calc_tests_exec
-    PRIVATE ${CHECK_INCLUDE}
+    PRIVATE ${CHECK_INCLUDE_DIRS}
 )

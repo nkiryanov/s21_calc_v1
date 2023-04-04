@@ -11,7 +11,7 @@ default:
     - docker
   before_script:
     - apt-get update
-    - apt-get -y install check lcov clang-format valgrind cppcheck cmake
+    - apt-get -y install check lcov clang-format valgrind cppcheck cmake pkg-config build-essential
     - cd ${PROJECT_DIR}
 
 build_ok:
@@ -29,3 +29,8 @@ leaks_check:
   stage: tests
   script:
     - make valgrind_tests
+    - echo "status=${?}" >> leaks.log
+  artifacts:
+    paths:
+      - leaks.log
+    expire_in: "2 days"
