@@ -9,13 +9,20 @@
 
 enum TOKEN_CODE {
   LEFT_PARENTHESIS = 1,
-  RIGHT_PARENTHESIS = 1,
+  RIGHT_PARENTHESIS = 2,
 };
 
-#define FUNCTION_NAMES \
+#define FUNCTIONS \
   "cos", "sin", "tan", "acos", "asin", "atan", "sqrt", "ln", "log"
-#define FUNC_OPERATORS "mod"
-#define FUNC_LITERALS "acdgilmnoqrst"
+#define OPERATORS "+", "-", "*", "/", "^", "mod"
+#define PARENTHESES "(", ")"
+#define VARIABLES "x"
+
+#define MAX_LENGTH 255
+
+// Calculate array length. Thanks https://stackoverflow.com/a/4415646
+#define COUNT_OF(x) \
+  ((sizeof(x) / sizeof(0 [x])) / ((size_t)(!(sizeof(x) % sizeof(0 [x])))))
 
 typedef struct calc_token {
   double value;
@@ -38,8 +45,10 @@ typedef struct calc_deque {
 
 typedef struct calc_expression {
   uint32_t size;
-  char *string;
-} calc_expression_t;
+  char string[MAX_LENGTH + 10];
+} calc_expr_t;
+
+#define EMPTY_EXPRESSION {.string = {0}, .size = 0}
 
 // --------- Deque functions -------------- //
 calc_deque_t *deque_init(void);
