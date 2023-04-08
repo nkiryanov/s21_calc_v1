@@ -8,9 +8,14 @@
 #include <string.h>
 
 enum TOKEN_CODE {
-    LEFT_PARENTHESIS = 1,
-    RIGHT_PARENTHESIS = 1,
+  LEFT_PARENTHESIS = 1,
+  RIGHT_PARENTHESIS = 1,
 };
+
+#define FUNCTION_NAMES \
+  "cos", "sin", "tan", "acos", "asin", "atan", "sqrt", "ln", "log"
+#define FUNC_OPERATORS "mod"
+#define FUNC_LITERALS "acdgilmnoqrst"
 
 typedef struct calc_token {
   double value;
@@ -36,7 +41,7 @@ typedef struct calc_expression {
   char *string;
 } calc_expression_t;
 
-// --------- Deque functions -------------- // 
+// --------- Deque functions -------------- //
 calc_deque_t *deque_init(void);
 void deque_push_front(calc_deque_t *deque, calc_token_t token);
 void deque_push_back(calc_deque_t *deque, calc_token_t token);
