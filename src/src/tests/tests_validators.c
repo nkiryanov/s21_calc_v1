@@ -100,6 +100,20 @@ START_TEST(test_validate_function_nested) {
 }
 END_TEST
 
+START_TEST(test_validate_function_without_opened_parenthesis) {
+  bool is_valid = validate("asin 13");
+
+  ck_assert_int_eq(is_valid, false);
+}
+END_TEST
+
+START_TEST(test_validate_non_one_char_length_operator) {
+  bool is_valid = validate("12 mod 23");
+
+  ck_assert_int_eq(is_valid, true);
+}
+END_TEST
+
 Suite *make_suite_validators(void) {
   Suite *s = suite_create("calc validate expresion");
   TCase *tc = tcase_create("Core");
@@ -118,6 +132,8 @@ Suite *make_suite_validators(void) {
   tcase_add_test(tc, test_validate_function_basic);
   tcase_add_test(tc, test_validate_function_incorrect_char);
   tcase_add_test(tc, test_validate_function_nested);
+  tcase_add_test(tc, test_validate_function_without_opened_parenthesis);
+  tcase_add_test(tc, test_validate_non_one_char_length_operator);
 
   return s;
 }

@@ -45,10 +45,8 @@ typedef struct calc_deque {
 
 typedef struct calc_expression {
   uint32_t size;
-  char string[MAX_LENGTH + 10];
+  char *string;
 } calc_expr_t;
-
-#define EMPTY_EXPRESSION {.string = {0}, .size = 0}
 
 // --------- Deque functions -------------- //
 calc_deque_t *deque_init(void);
