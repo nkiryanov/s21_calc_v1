@@ -5,6 +5,6 @@
 
 Suite *make_master_suite(void);
 Suite *make_suite_deque(void);
-Suite *make_suite_validators(void);
+Suite *make_suite_validate(void);
 
 #endif  // SRC_TESTS_TEST_SUITES_H_

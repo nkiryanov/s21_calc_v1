@@ -1,7 +1,8 @@
 add_library(
     "calc_rpn" STATIC
     deque.c
-    validators.c
+    validate.c
+    validate_helpers.c
 )
 
 target_include_directories(calc_rpn

@@ -5,7 +5,7 @@ add_executable(calc_tests_exec
     tests_main.c
     master_suite.c
     tests_deque.c
-    tests_validators.c
+    tests_validate.c
 )
 
 target_link_libraries(calc_tests_exec

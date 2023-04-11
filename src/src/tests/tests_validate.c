@@ -1,6 +1,6 @@
 #include <check.h>
 
-#include "calc_internal.h"
+#include "calc_rpn.h"
 
 // START_TEST(test_validate_parentheses_basic) {
 //   bool is_valid = validate("()");
@@ -114,7 +114,7 @@ START_TEST(test_validate_non_one_char_length_operator) {
 }
 END_TEST
 
-Suite *make_suite_validators(void) {
+Suite *make_suite_validate(void) {
   Suite *s = suite_create("calc validate expresion");
   TCase *tc = tcase_create("Core");
 
