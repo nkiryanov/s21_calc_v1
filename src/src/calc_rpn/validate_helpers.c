@@ -1,14 +1,5 @@
 #include "validate_helpers.h"
 
-static void add_parenthesis_to_func_token(char *token) {
-  char functions[][10] = {FUNCTIONS};
-  int count_functions = COUNT_OF(functions);
-
-  for (int i = 0; i < count_functions; ++i) {
-    if (strcmp(functions[i], token) == 0) strcat(token, "(");
-  }
-}
-
 void skip_space(calc_expr_t expression, uint32_t *start) {
   while (expression.string[*start] == ' ') {
     *start += 1;
@@ -42,22 +33,16 @@ bool match_number(calc_expr_t expression, uint32_t *start) {
   return token_match;
 }
 
-bool match_token(calc_expr_t expression, uint32_t *start) {
-  // Check is the `expression` from `start` position is matched to any valid
-  // token (may be function, operator or parenthesis).
+bool match_tokens(calc_expr_t expression, uint32_t *start, char tokens[][10],
+                  uint32_t count_tokens) {
+  // Check is the `expression` from `start` position is matched to any token
   //
-  // If token is matched moves the start position to `token_len`
-  // If `token` is a function it will find open parenthesis
-  //   Example: `sin(` instead of `sin`
+  // If token is matched the function moves the start position by `token_len`
 
-  char valid_tokens[][10] = {FUNCTIONS, PARENTHESES, OPERATORS, VARIABLES};
-  int count_tokens = COUNT_OF(valid_tokens);
   bool token_match = false;
 
-  for (int index = 0; index < count_tokens && !token_match; ++index) {
-    char *token = valid_tokens[index];
-
-    add_parenthesis_to_func_token(token);
+  for (uint32_t index = 0; index < count_tokens && !token_match; ++index) {
+    char *token = tokens[index];
 
     uint32_t token_len = strlen(token);
     uint32_t expression_len = expression.size - *start;

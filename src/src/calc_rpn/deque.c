@@ -1,4 +1,4 @@
-#include "calc_internal.h"
+#include "calc_deque.h"
 
 static calc_node_t *calloc_node(void) {
   calc_node_t *node = (calc_node_t *)malloc(sizeof(calc_node_t));
@@ -8,7 +8,7 @@ static calc_node_t *calloc_node(void) {
     exit(0);
   }
 
-  calc_token_t empty_token = {.value = 0, .priority = 0, .code = 0};
+  INIT_NUMBER_TOKEN(empty_token, 0);
 
   node->left = NULL;
   node->right = NULL;

@@ -5,16 +5,7 @@
 #include <stdint.h>
 #include <string.h>
 
-enum TOKEN_CODE {
-  LEFT_PARENTHESIS = 1,
-  RIGHT_PARENTHESIS = 2,
-};
-
-#define FUNCTIONS \
-  "cos", "sin", "tan", "acos", "asin", "atan", "sqrt", "ln", "log"
-#define OPERATORS "+", "-", "*", "/", "^", "mod"
-#define PARENTHESES "(", ")"
-#define VARIABLES "x"
+#include "calc_token.h"
 
 #define MAX_LENGTH 255
 
@@ -30,8 +21,9 @@ typedef struct calc_expression {
 bool validate(char *string);
 
 // Helpers
-bool match_number(calc_expr_t expression, uint32_t *start);
-bool match_token(calc_expr_t expression, uint32_t *start);
 void skip_space(calc_expr_t expression, uint32_t *start);
+bool match_number(calc_expr_t expression, uint32_t *start);
+bool match_tokens(calc_expr_t expression, uint32_t *start, char tokens[][10],
+                  uint32_t count_tokens);
 
 #endif  // SRC_CALC_RPN_VALIDATE_HELPERS_H_

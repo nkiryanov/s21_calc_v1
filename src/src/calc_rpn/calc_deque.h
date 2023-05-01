@@ -1,16 +1,12 @@
-#ifndef SRC_CALC_RPN_CALC_INTERNAL_H_
-#define SRC_CALC_RPN_CALC_INTERNAL_H_
+#ifndef SRC_CALC_RPN_CALC_DEQUE_H_
+#define SRC_CALC_RPN_CALC_DEQUE_H_
 
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct calc_token {
-  double value;
-  uint8_t priority;
-  uint8_t code;
-} calc_token_t;
+#include "calc_token.h"
 
 typedef struct calc_node {
   struct calc_node *left;
@@ -33,4 +29,4 @@ calc_token_t deque_pop_front(calc_deque_t *deque);
 calc_token_t deque_pop_back(calc_deque_t *deque);
 void deque_destroy(calc_deque_t **deque_ptr);
 
-#endif  // SRC_CALC_RPN_CALC_INTERNAL_H_
+#endif  // SRC_CALC_RPN_CALC_DEQUE_H_
