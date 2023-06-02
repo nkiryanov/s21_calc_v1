@@ -8,13 +8,14 @@ int main() {
   typedef double (*operator)(double, double);
 
   calc_token_t token = {
-    .token_type = 50,
-    .value.number = 23,
+      .token_type = 50,
+      .storage.number = 23,
   };
 
+  
   match_token("mod", &token);
 
-  operator oper = token.value.operator.operator;
+  operator oper = token.storage.operator.operator;
 
   double y = (*oper)(5, 4);
 

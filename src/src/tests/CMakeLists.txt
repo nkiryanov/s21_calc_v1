@@ -6,6 +6,7 @@ add_executable(calc_tests_exec
     master_suite.c
     tests_deque.c
     tests_validate.c
+    tests_match_token.c
 )
 
 target_link_libraries(calc_tests_exec

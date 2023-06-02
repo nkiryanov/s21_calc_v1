@@ -1,8 +1,8 @@
 #include "validate_helpers.h"
 
-void skip_space(calc_expr_t expression, uint32_t *start) {
-  while (expression.string[*start] == ' ') {
-    *start += 1;
+void skip_space(calc_expr_t *expression, uint32_t *iter) {
+  while (expression->string[*iter] == ' ' || *iter != expression->size) {
+    *iter++;
   }
 }
 

@@ -255,9 +255,9 @@ Suite *make_suite_deque(void) {
   TCase *tc_destroy = tcase_create("Deque destroy tests");
   suite_add_tcase(s, tc_destroy);
 
-  tcase_add_checked_fixture(tc, setup, NULL);
-  tcase_add_test(tc, test_deque_destroy_empty_deque);
-  tcase_add_test(tc, test_deque_destroy);
+  tcase_add_checked_fixture(tc_destroy, setup, NULL);
+  tcase_add_test(tc_destroy, test_deque_destroy_empty_deque);
+  tcase_add_test(tc_destroy, test_deque_destroy);
 
   return s;
 }

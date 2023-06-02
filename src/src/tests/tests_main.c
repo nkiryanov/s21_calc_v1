@@ -9,6 +9,7 @@ int main(void) {
   sr = srunner_create(make_master_suite());
 
   srunner_add_suite(sr, make_suite_deque());
+  srunner_add_suite(sr, make_suite_match_token());
   srunner_add_suite(sr, make_suite_validate());
 
   // We set NOFORK mode for debug ability and testing with valgrind

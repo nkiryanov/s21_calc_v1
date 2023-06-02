@@ -29,7 +29,7 @@ enum OPERATOR_PRIORITY {
 };
 
 typedef struct calc_operator {
-  double (*operator)(double, double);
+  double (*function)(double, double);
   enum OPERATOR_ASSOCIATION association;
   enum OPERATOR_PRIORITY priority;
 } calc_operator_t;
@@ -40,13 +40,17 @@ typedef struct calc_token {
     double number;
     double (*function)(double);
     calc_operator_t operator;
-  } value;
+  } storage;
 } calc_token_t;
 
 #define INIT_NUMBER_TOKEN(TOKEN, NUMBER_VALUE) \
-  calc_token_t TOKEN = {                \
-      .token_type = NUMBER,             \
-      .value.number = NUMBER_VALUE,     \
+  calc_token_t TOKEN = {                       \
+      .token_type = NUMBER,                    \
+      .storage.number = NUMBER_VALUE,            \
   }
+
+// Calculate array length. Thanks https://stackoverflow.com/a/4415646
+#define COUNT_OF(x) \
+  ((sizeof(x) / sizeof(0 [x])) / ((size_t)(!(sizeof(x) % sizeof(0 [x])))))
 
 #endif  // SRC_CALC_RPN_CALC_TOKEN_H_
