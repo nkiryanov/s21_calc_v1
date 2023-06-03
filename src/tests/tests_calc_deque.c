@@ -1,6 +1,6 @@
 #include <check.h>
 
-#include "calc_deque.h"
+#include "calc_rpn/calc_deque.h"
 
 static INIT_NUMBER_TOKEN(token, 0.1);
 static INIT_NUMBER_TOKEN(ya_token, 10.);

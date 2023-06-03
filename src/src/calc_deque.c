@@ -1,4 +1,4 @@
-#include "calc_deque.h"
+#include "calc_rpn/calc_deque.h"
 
 static calc_node_t *calloc_node(void) {
   calc_node_t *node = (calc_node_t *)malloc(sizeof(calc_node_t));

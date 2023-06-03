@@ -1,4 +1,4 @@
-SRC_DIR := src
+SRC_DIR := .
 BUILD_DIR := ../build
 
 SRC := $(shell find $(SRC_DIR) -name "*.c")

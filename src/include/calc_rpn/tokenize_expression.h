@@ -1,5 +1,5 @@
-#ifndef SRC_CALC_RPN_TOKENIZE_EXPRESSION_H_
-#define SRC_CALC_RPN_TOKENIZE_EXPRESSION_H_
+#ifndef SRC_INCLUDE_CALC_RPN_TOKENIZE_EXPRESSION_H_
+#define SRC_INCLUDE_CALC_RPN_TOKENIZE_EXPRESSION_H_
 
 #include <math.h>
 #include <stdbool.h>
@@ -10,4 +10,4 @@
 
 bool tokenize_once(const char **iter, const char *end, calc_token_t *token);
 
-#endif  // SRC_CALC_RPN_TOKENIZE_EXPRESSION_H_
+#endif  // SRC_INCLUDE_CALC_RPN_TOKENIZE_EXPRESSION_H_

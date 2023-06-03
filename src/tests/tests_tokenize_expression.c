@@ -1,6 +1,6 @@
 #include <check.h>
 
-#include "tokenize_expression.h"
+#include "calc_rpn/tokenize_expression.h"
 
 static bool match = false;
 static char *src = "sin( cos log(x) +*^mod 18.001 x coss ln";
