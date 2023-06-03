@@ -13,11 +13,11 @@ static void set_operator(double (*operator)(double, double),
   token->token_type = OPERATOR;
   token->storage.operator.function = operator;
 
-  if (operator==(&pow)) {
+  if (operator== pow) {
     token->storage.operator.priority = HIGH_PRIORITY;
     token->storage.operator.association = RIGHT_ASSOCIATED;
-  } else if (operator==(&fmod) || operator==(&operator_div) ||
-                                  operator==(&operator_mul)) {
+  } else if (operator== fmod || operator== operator_div || operator==
+             operator_mul) {
     token->storage.operator.priority = HIGH_PRIORITY;
     token->storage.operator.association = LEFT_ASSOCIATED;
   } else {
@@ -60,23 +60,23 @@ static bool tokenize_function(const char **iter, const char *end,
   bool function_matched = true;
 
   if (match_str_expression(iter, end, "cos"))
-    set_function(&cos, token);
+    set_function(cos, token);
   else if (match_str_expression(iter, end, "sin"))
-    set_function(&sin, token);
+    set_function(sin, token);
   else if (match_str_expression(iter, end, "tan"))
-    set_function(&tan, token);
+    set_function(tan, token);
   else if (match_str_expression(iter, end, "acos"))
-    set_function(&acos, token);
+    set_function(acos, token);
   else if (match_str_expression(iter, end, "asin"))
-    set_function(&asin, token);
+    set_function(asin, token);
   else if (match_str_expression(iter, end, "atan"))
-    set_function(&atan, token);
+    set_function(atan, token);
   else if (match_str_expression(iter, end, "sqrt"))
-    set_function(&sqrt, token);
+    set_function(sqrt, token);
   else if (match_str_expression(iter, end, "ln"))
-    set_function(&log, token);
+    set_function(log, token);
   else if (match_str_expression(iter, end, "log"))
-    set_function(&log10, token);
+    set_function(log10, token);
   else
     function_matched = false;
 
@@ -88,17 +88,17 @@ static bool tokenize_operator(const char **iter, const char *end,
   bool operator_matched = true;
 
   if (match_str_expression(iter, end, "+"))
-    set_operator(&operator_add, token);
+    set_operator(operator_add, token);
   else if (match_str_expression(iter, end, "-"))
-    set_operator(&operator_sub, token);
+    set_operator(operator_sub, token);
   else if (match_str_expression(iter, end, "/"))
-    set_operator(&operator_div, token);
+    set_operator(operator_div, token);
   else if (match_str_expression(iter, end, "*"))
-    set_operator(&operator_mul, token);
+    set_operator(operator_mul, token);
   else if (match_str_expression(iter, end, "mod"))
-    set_operator(&fmod, token);
+    set_operator(fmod, token);
   else if (match_str_expression(iter, end, "^"))
-    set_operator(&pow, token);
+    set_operator(pow, token);
   else
     operator_matched = false;
 

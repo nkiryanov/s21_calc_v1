@@ -23,7 +23,7 @@ START_TEST(test_return_true_move_iter_and_set_token_if_match) {
   ck_assert_int_eq(match, true);
   ck_assert_ptr_eq(iter, src + 3);  // should be moved by len of `to_match`
   ck_assert_int_eq(token.token_type, FUNCTION);
-  ck_assert_ptr_eq(token.storage.function, &sin);
+  ck_assert_ptr_eq(token.storage.function, sin);
 }
 END_TEST
 
@@ -56,7 +56,7 @@ START_TEST(test_match_token_if_token_match_exactly_to_the_end) {
   ck_assert_int_eq(match, true);
   ck_assert_ptr_eq(iter, end);  // moved exactly to the end
   ck_assert_int_eq(token.token_type, FUNCTION);
-  ck_assert_ptr_eq(token.storage.function, &log);
+  ck_assert_ptr_eq(token.storage.function, log);
 }
 
 START_TEST(test_match_add_operator_correctly) {
@@ -84,7 +84,7 @@ START_TEST(test_match_mul_operator_correctly) {
   ck_assert_int_eq(token.token_type, OPERATOR);
   ck_assert_int_eq(token.storage.operator.priority, HIGH_PRIORITY);
   ck_assert_int_eq(token.storage.operator.association, LEFT_ASSOCIATED);
-  ck_assert_double_eq((*operator)(2, 3), 6);  // call operator 2 * 3 = 6
+  ck_assert_double_eq(operator(2, 3), 6);  // call operator 2 * 3 = 6
 }
 
 START_TEST(test_match_pow_operator_correctly) {
@@ -97,7 +97,7 @@ START_TEST(test_match_pow_operator_correctly) {
   ck_assert_int_eq(token.token_type, OPERATOR);
   ck_assert_int_eq(token.storage.operator.priority, HIGH_PRIORITY);
   ck_assert_int_eq(token.storage.operator.association, RIGHT_ASSOCIATED);
-  ck_assert_ptr_eq(token.storage.operator.function, &pow);
+  ck_assert_ptr_eq(token.storage.operator.function, pow);
 }
 
 START_TEST(test_match_mod_operator_correctly) {
@@ -110,7 +110,7 @@ START_TEST(test_match_mod_operator_correctly) {
   ck_assert_int_eq(token.token_type, OPERATOR);
   ck_assert_int_eq(token.storage.operator.priority, HIGH_PRIORITY);
   ck_assert_int_eq(token.storage.operator.association, LEFT_ASSOCIATED);
-  ck_assert_ptr_eq(token.storage.operator.function, &fmod);
+  ck_assert_ptr_eq(token.storage.operator.function, fmod);
 }
 
 START_TEST(test_left_parenthesis_matched_ok) {
