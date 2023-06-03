@@ -1,5 +1,5 @@
-#ifndef SRC_INCLUDE_CALC_RPN_CALC_TOKEN_H_
-#define SRC_INCLUDE_CALC_RPN_CALC_TOKEN_H_
+#ifndef CALC_RPN_CALC_TOKEN_H_
+#define CALC_RPN_CALC_TOKEN_H_
 
 #include <stdint.h>
 
@@ -56,4 +56,4 @@ typedef struct calc_token {
 #define COUNT_OF(x) \
   ((sizeof(x) / sizeof(0 [x])) / ((size_t)(!(sizeof(x) % sizeof(0 [x])))))
 
-#endif  // SRC_INCLUDE_CALC_RPN_CALC_TOKEN_H_
+#endif  // CALC_RPN_CALC_TOKEN_H_

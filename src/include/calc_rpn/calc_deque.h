@@ -1,5 +1,5 @@
-#ifndef SRC_CALC_RPN_CALC_DEQUE_H_
-#define SRC_CALC_RPN_CALC_DEQUE_H_
+#ifndef CALC_RPN_CALC_DEQUE_H_
+#define CALC_RPN_CALC_DEQUE_H_
 
 #include <stdbool.h>
 #include <stdint.h>
@@ -29,4 +29,4 @@ calc_token_t deque_pop_front(calc_deque_t *deque);
 calc_token_t deque_pop_back(calc_deque_t *deque);
 void deque_destroy(calc_deque_t **deque_ptr);
 
-#endif  // SRC_CALC_RPN_CALC_DEQUE_H_
+#endif  // CALC_RPN_CALC_DEQUE_H_

@@ -9,8 +9,8 @@ int main(void) {
   sr = srunner_create(make_master_suite());
 
   srunner_add_suite(sr, make_suite_calc_deque());
+  srunner_add_suite(sr, make_suite_tokenize_once_function());
   srunner_add_suite(sr, make_suite_tokenize_expression());
-  // srunner_add_suite(sr, make_suite_validate());
 
   // We set NOFORK mode for debug ability and testing with valgrind
   srunner_set_fork_status(sr, CK_NOFORK);

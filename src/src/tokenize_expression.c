@@ -126,8 +126,8 @@ static bool tokenize_number(const char **iter, const char *end,
   uint8_t count_points = 0;
   bool is_number_matched = false;
 
-  while ((*number_end >= '0' && *number_end <= '9') || *number_end == '.' ||
-         number_end != end) {
+  while (number_end != end &&
+         ((*number_end >= '0' && *number_end <= '9') || *number_end == '.')) {
     if (*number_end == '.') ++count_points;
     ++number_end;
   }
@@ -178,4 +178,18 @@ bool tokenize_once(const char **iter, const char *end, calc_token_t *token) {
   if (tokenized == false) tokenized = tokenize_variables(iter, end, token);
 
   return tokenized;
+}
+
+bool tokenize_expression(expression_t *expression, calc_deque_t *tokens) {
+  bool is_token_match;
+  const char *iter = expression->string;
+  const char *end = expression->string + expression->length;
+
+  for (is_token_match = true; is_token_match != false && iter != end;) {
+    INIT_NUMBER_TOKEN(token, 0);
+    is_token_match = tokenize_once(&iter, end, &token);
+    if (is_token_match) deque_push_back(tokens, token);
+  }
+
+  return is_token_match;
 }

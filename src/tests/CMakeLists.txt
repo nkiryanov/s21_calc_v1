@@ -8,8 +8,8 @@ add_executable("calc_tests_exec"
     tests_main.c
     master_suite.c
     tests_calc_deque.c
+    tests_tokenize_once_function.c
     tests_tokenize_expression.c
-    # tests_validate.c
     ${HEADER_LIST}
 )
 
