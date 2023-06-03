@@ -3,7 +3,7 @@
 #include "tokenize_expression.h"
 
 static bool match = false;
-static char *src = "sin( cos log(x) +*^mod 18.001 coss ln";
+static char *src = "sin( cos log(x) +*^mod 18.001 x coss ln";
 static char *end;
 static calc_token_t token;
 
@@ -181,6 +181,30 @@ START_TEST(test_do_not_match_number_if_number_ended_with_point) {
   ck_assert_ptr_eq(iter, src);
 }
 
+START_TEST(test_match_x_variable) {
+  const char *src = "x";
+  const char *iter = src;
+  const char *end = src + strlen(src);
+
+  match = tokenize_once(&iter, end, &token);
+
+  ck_assert_int_eq(match, true);
+  ck_assert_ptr_eq(iter, end);
+  ck_assert_int_eq(token.token_type, X_VARIABLE);
+  ck_assert_double_eq(token.storage.number, 0);
+}
+
+START_TEST(test_do_nothing_if_not_expected_variable_found) {
+  const char *src = "y";
+  const char *iter = src;
+  const char *end = src + strlen(src);
+
+  match = tokenize_once(&iter, end, &token);
+
+  ck_assert_int_eq(match, false);
+  ck_assert_ptr_eq(iter, src);
+}
+
 
 Suite *make_suite_tokenize_expression(void) {
   Suite *s = suite_create("tokenize_expression suite");
@@ -203,5 +227,7 @@ Suite *make_suite_tokenize_expression(void) {
   tcase_add_test(tc, test_do_not_match_number_if_two_points_found);
   tcase_add_test(tc, test_do_not_match_number_if_number_started_from_point);
   tcase_add_test(tc, test_do_not_match_number_if_number_ended_with_point);
+  tcase_add_test(tc, test_match_x_variable);
+  tcase_add_test(tc, test_do_nothing_if_not_expected_variable_found);
   return s;
 }

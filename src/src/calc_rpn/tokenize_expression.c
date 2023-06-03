@@ -153,12 +153,13 @@ static bool tokenize_number(const char **iter, const char *end,
   return is_number_matched;
 }
 
-
-static bool tokenize_variables(const char **iter, const char *end, calc_token_t *token) {
+static bool tokenize_variables(const char **iter, const char *end,
+                               calc_token_t *token) {
   bool is_variable_matched = false;
+  const char *x_variable = "x";
 
-  if (match_str_expression(iter, end, 'x')) {
-    token->token_type = VARIABLES;
+  if (match_str_expression(iter, end, x_variable)) {
+    token->token_type = X_VARIABLE;
     token->storage.number = 0;
     is_variable_matched = true;
   }
