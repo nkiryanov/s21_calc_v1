@@ -9,13 +9,16 @@
 #define PARENTHESES "(", ")"
 #define VARIABLES "x"
 
+#define MAX_TOKEN_LENGTH 255
+
 enum TOKEN_TYPE {
-  NUMBER = 0,
-  LEFT_PARENTHESIS = 1,
-  RIGHT_PARENTHESIS = 2,
-  FUNCTION = 3,
-  OPERATOR = 4,
-  X_VARIABLE = 5,
+  TOKEN_TYPE_NOT_SET = 0,
+  NUMBER = 1,
+  LEFT_PARENTHESIS = 2,
+  RIGHT_PARENTHESIS = 3,
+  FUNCTION = 4,
+  OPERATOR = 5,
+  X_VARIABLE = 6,
 };
 
 enum OPERATOR_ASSOCIATION {
@@ -46,7 +49,7 @@ typedef struct calc_token {
 #define INIT_NUMBER_TOKEN(TOKEN, NUMBER_VALUE) \
   calc_token_t TOKEN = {                       \
       .token_type = NUMBER,                    \
-      .storage.number = NUMBER_VALUE,            \
+      .storage.number = NUMBER_VALUE,          \
   }
 
 // Calculate array length. Thanks https://stackoverflow.com/a/4415646

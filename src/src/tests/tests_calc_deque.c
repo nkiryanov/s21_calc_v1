@@ -9,7 +9,7 @@ static calc_deque_t *deque;
 
 static bool is_number_token_equal(calc_token_t token, calc_token_t expected) {
   return (token.token_type == expected.token_type &&
-          token.value.number == expected.value.number);
+          token.storage.number == expected.storage.number);
 }
 
 static void setup(void) { deque = NULL; }
@@ -232,7 +232,7 @@ START_TEST(test_deque_destroy) {
   ck_assert_ptr_null(deque);
 }
 
-Suite *make_suite_deque(void) {
+Suite *make_suite_calc_deque(void) {
   Suite *s = suite_create("calc_deque suite");
   TCase *tc = tcase_create("Core");
 

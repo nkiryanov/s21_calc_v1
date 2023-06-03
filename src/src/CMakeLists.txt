@@ -9,7 +9,7 @@ add_compile_options(-Wall -Werror -Wextra)
 
 add_subdirectory("calc_rpn")
 
-add_executable(smart_calc stupid_test.c)
-target_link_libraries(smart_calc calc_rpn)
+# add_executable(smart_calc stupid_test.c)
+# target_link_libraries(smart_calc calc_rpn)
 
 add_subdirectory("tests")

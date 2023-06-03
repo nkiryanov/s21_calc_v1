@@ -1,19 +1,19 @@
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(CHECK REQUIRED check)
+pkg_check_modules(LIBCHECK REQUIRED check)
 
 add_executable(calc_tests_exec
     tests_main.c
     master_suite.c
-    tests_deque.c
-    tests_validate.c
-    tests_match_token.c
+    tests_calc_deque.c
+    tests_tokenize_expression.c
+    # tests_validate.c
 )
 
 target_link_libraries(calc_tests_exec
-    PRIVATE calc_rpn ${CHECK_LINK_LIBRARIES}
+    PRIVATE calc_rpn ${LIBCHECK_LINK_LIBRARIES}
 )
 
 target_include_directories(
     calc_tests_exec
-    PRIVATE ${CHECK_INCLUDE_DIRS}
+    PRIVATE ${LIBCHECK_INCLUDE_DIRS}
 )
