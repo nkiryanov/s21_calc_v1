@@ -95,7 +95,9 @@ calc_token_t deque_pop_back(calc_deque_t *deque) {
 void deque_destroy(calc_deque_t **deque_ptr) {
   calc_deque_t *deque = *deque_ptr;
 
-  while (deque->size != 0) deque_pop_front(deque);
-  free(*deque_ptr);
-  *deque_ptr = NULL;
+  if (deque != NULL) {
+    while (deque->size != 0) deque_pop_front(deque);
+    free(*deque_ptr);
+    *deque_ptr = NULL;
+  }
 }

@@ -50,6 +50,11 @@ static bool match_str_expression(const char **iter, const char *end,
   return is_matched;
 }
 
+static void skip_space(const char **iter, const char *end) {
+  for (; **iter == ' ' && *iter != end; ++(*iter)) {
+  }
+}
+
 static bool tokenize_function(const char **iter, const char *end,
                               calc_token_t *token) {
   bool function_matched = true;
@@ -186,7 +191,10 @@ bool tokenize_expression(expression_t *expression, calc_deque_t *tokens) {
   const char *end = expression->string + expression->length;
 
   for (is_token_match = true; is_token_match != false && iter != end;) {
+    skip_space(&iter, end);
+
     INIT_NUMBER_TOKEN(token, 0);
+
     is_token_match = tokenize_once(&iter, end, &token);
     if (is_token_match) deque_push_back(tokens, token);
   }

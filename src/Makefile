@@ -1,4 +1,5 @@
-SRC_DIR := .
+CMAKE_ROOT := .
+SRC_DIR := src
 BUILD_DIR := ../build
 
 SRC := $(shell find $(SRC_DIR) -name "*.c")
@@ -15,7 +16,7 @@ fmt:
 	@clang-format --style=Google --Werror -i $(SRC) $(HEADERS) && echo "Formatted"
 
 $(TESTS_EXEC):
-	cmake -S $(SRC_DIR) -B $(BUILD_DIR)
+	cmake -S $(CMAKE_ROOT) -B $(BUILD_DIR)
 	cd $(BUILD_DIR) && cmake --build .
 
 tests: test

@@ -232,6 +232,14 @@ START_TEST(test_deque_destroy) {
   ck_assert_ptr_null(deque);
 }
 
+START_TEST(test_deque_destroy_safe_for_null_ptr) {
+  calc_deque_t *deque_null_ptr = NULL;
+
+  deque_destroy(&deque_null_ptr);  // Should not fail
+
+  ck_assert_ptr_null(deque_null_ptr);
+}
+
 Suite *make_suite_calc_deque(void) {
   Suite *s = suite_create("calc_deque suite");
   TCase *tc = tcase_create("Core");
@@ -258,6 +266,7 @@ Suite *make_suite_calc_deque(void) {
   tcase_add_checked_fixture(tc_destroy, setup, NULL);
   tcase_add_test(tc_destroy, test_deque_destroy_empty_deque);
   tcase_add_test(tc_destroy, test_deque_destroy);
+  tcase_add_test(tc_destroy, test_deque_destroy_safe_for_null_ptr);
 
   return s;
 }

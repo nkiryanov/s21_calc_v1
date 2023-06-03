@@ -36,7 +36,8 @@
 // //       // Check that function was the last token in expression or
 // //       // don not have open parenthesis after it
 // //       has_error =
-// //           (start == expression.size - 1 || expression.string[start] != '(');
+// //           (start == expression.size - 1 || expression.string[start] !=
+// '(');
 // //     } else {
 // //       ++start;
 // //     }
