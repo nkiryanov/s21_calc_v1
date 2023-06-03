@@ -7,7 +7,7 @@ static INIT_NUMBER_TOKEN(ya_token, 10.);
 static INIT_NUMBER_TOKEN(yya_token, 12.);
 static calc_deque_t *deque;
 
-static bool is_number_token_equal(calc_token_t token, calc_token_t expected) {
+static bool is_number_tokens_equal(calc_token_t token, calc_token_t expected) {
   return (token.token_type == expected.token_type &&
           token.storage.number == expected.storage.number);
 }
@@ -46,7 +46,7 @@ START_TEST(test_deque_push_front_once) {
   ck_assert_ptr_eq(deque->head, deque->tail);
   ck_assert_ptr_null(deque->head->left);
   ck_assert_ptr_null(deque->head->right);
-  ck_assert_int_eq(is_number_token_equal(deque->head->token, token), true);
+  ck_assert_int_eq(is_number_tokens_equal(deque->head->token, token), true);
 }
 
 START_TEST(test_deque_push_front_twice) {
@@ -62,8 +62,8 @@ START_TEST(test_deque_push_front_twice) {
   ck_assert_ptr_nonnull(deque->tail);
   ck_assert_ptr_null(deque->tail->right);
   ck_assert_ptr_eq(deque->tail->left, deque->head);
-  ck_assert_int_eq(is_number_token_equal(deque->tail->token, token), true);
-  ck_assert_int_eq(is_number_token_equal(deque->head->token, ya_token), true);
+  ck_assert_int_eq(is_number_tokens_equal(deque->tail->token, token), true);
+  ck_assert_int_eq(is_number_tokens_equal(deque->head->token, ya_token), true);
 }
 
 START_TEST(test_deque_push_front_three_times) {
@@ -76,8 +76,8 @@ START_TEST(test_deque_push_front_three_times) {
   ck_assert_uint_eq(deque->size, 3);
   ck_assert_ptr_nonnull(deque->head);
   ck_assert_ptr_nonnull(deque->tail);
-  ck_assert_int_eq(is_number_token_equal(deque->tail->token, token), true);
-  ck_assert_int_eq(is_number_token_equal(deque->head->token, yya_token), true);
+  ck_assert_int_eq(is_number_tokens_equal(deque->tail->token, token), true);
+  ck_assert_int_eq(is_number_tokens_equal(deque->head->token, yya_token), true);
 }
 
 START_TEST(test_deque_push_back_once) {
@@ -89,7 +89,7 @@ START_TEST(test_deque_push_back_once) {
   ck_assert_ptr_eq(deque->head, deque->tail);
   ck_assert_ptr_null(deque->head->left);
   ck_assert_ptr_null(deque->head->right);
-  ck_assert_int_eq(is_number_token_equal(deque->head->token, token), true);
+  ck_assert_int_eq(is_number_tokens_equal(deque->head->token, token), true);
 }
 
 START_TEST(test_deque_push_back_twice) {
@@ -105,8 +105,8 @@ START_TEST(test_deque_push_back_twice) {
   ck_assert_ptr_nonnull(deque->tail);
   ck_assert_ptr_null(deque->tail->right);
   ck_assert_ptr_eq(deque->tail->left, deque->head);
-  ck_assert_int_eq(is_number_token_equal(deque->tail->token, ya_token), true);
-  ck_assert_int_eq(is_number_token_equal(deque->head->token, token), true);
+  ck_assert_int_eq(is_number_tokens_equal(deque->tail->token, ya_token), true);
+  ck_assert_int_eq(is_number_tokens_equal(deque->head->token, token), true);
 }
 
 START_TEST(test_deque_push_back_tree_times) {
@@ -119,8 +119,8 @@ START_TEST(test_deque_push_back_tree_times) {
   ck_assert_uint_eq(deque->size, 3);
   ck_assert_ptr_nonnull(deque->head);
   ck_assert_ptr_nonnull(deque->tail);
-  ck_assert_int_eq(is_number_token_equal(deque->head->token, token), true);
-  ck_assert_int_eq(is_number_token_equal(deque->tail->token, yya_token), true);
+  ck_assert_int_eq(is_number_tokens_equal(deque->head->token, token), true);
+  ck_assert_int_eq(is_number_tokens_equal(deque->tail->token, yya_token), true);
 }
 
 START_TEST(test_deque_pop_front) {
@@ -131,11 +131,11 @@ START_TEST(test_deque_pop_front) {
 
   calc_token_t popped = deque_pop_front(deque);
 
-  ck_assert_int_eq(is_number_token_equal(popped, yya_token), true);
+  ck_assert_int_eq(is_number_tokens_equal(popped, yya_token), true);
   ck_assert_uint_eq(deque->size, 2);
   ck_assert_ptr_nonnull(deque->head);
   ck_assert_ptr_nonnull(deque->tail);
-  ck_assert_int_eq(is_number_token_equal(deque->head->token, ya_token), true);
+  ck_assert_int_eq(is_number_tokens_equal(deque->head->token, ya_token), true);
 }
 
 START_TEST(test_deque_pop_front_twice) {
@@ -147,12 +147,12 @@ START_TEST(test_deque_pop_front_twice) {
 
   calc_token_t popped = deque_pop_front(deque);
 
-  ck_assert_int_eq(is_number_token_equal(popped, ya_token), true);
+  ck_assert_int_eq(is_number_tokens_equal(popped, ya_token), true);
   ck_assert_uint_eq(deque->size, 1);
   ck_assert_ptr_nonnull(deque->head);
   ck_assert_ptr_nonnull(deque->tail);
   ck_assert_ptr_null(deque->head->right);
-  ck_assert_int_eq(is_number_token_equal(deque->head->token, token), true);
+  ck_assert_int_eq(is_number_tokens_equal(deque->head->token, token), true);
 }
 
 START_TEST(test_deque_pop_front_last_token) {
@@ -161,7 +161,7 @@ START_TEST(test_deque_pop_front_last_token) {
 
   calc_token_t popped = deque_pop_front(deque);
 
-  ck_assert_int_eq(is_number_token_equal(popped, token), true);
+  ck_assert_int_eq(is_number_tokens_equal(popped, token), true);
   ck_assert_uint_eq(deque->size, 0);
   ck_assert_ptr_null(deque->head);
   ck_assert_ptr_null(deque->tail);
@@ -175,11 +175,11 @@ START_TEST(test_deque_pop_back) {
 
   calc_token_t popped = deque_pop_back(deque);
 
-  ck_assert_int_eq(is_number_token_equal(popped, token), true);
+  ck_assert_int_eq(is_number_tokens_equal(popped, token), true);
   ck_assert_uint_eq(deque->size, 2);
   ck_assert_ptr_nonnull(deque->head);
   ck_assert_ptr_nonnull(deque->tail);
-  ck_assert_int_eq(is_number_token_equal(deque->head->token, yya_token), true);
+  ck_assert_int_eq(is_number_tokens_equal(deque->head->token, yya_token), true);
 }
 
 START_TEST(test_deque_pop_back_twice) {
@@ -191,12 +191,12 @@ START_TEST(test_deque_pop_back_twice) {
 
   calc_token_t popped = deque_pop_back(deque);
 
-  ck_assert_int_eq(is_number_token_equal(popped, ya_token), true);
+  ck_assert_int_eq(is_number_tokens_equal(popped, ya_token), true);
   ck_assert_uint_eq(deque->size, 1);
   ck_assert_ptr_nonnull(deque->head);
   ck_assert_ptr_nonnull(deque->tail);
   ck_assert_ptr_null(deque->head->right);
-  ck_assert_int_eq(is_number_token_equal(deque->head->token, yya_token), true);
+  ck_assert_int_eq(is_number_tokens_equal(deque->head->token, yya_token), true);
 }
 
 START_TEST(test_deque_pop_back_last_token) {
@@ -205,10 +205,32 @@ START_TEST(test_deque_pop_back_last_token) {
 
   calc_token_t popped = deque_pop_back(deque);
 
-  ck_assert_int_eq(is_number_token_equal(popped, token), true);
+  ck_assert_int_eq(is_number_tokens_equal(popped, token), true);
   ck_assert_uint_eq(deque->size, 0);
   ck_assert_ptr_null(deque->head);
   ck_assert_ptr_null(deque->tail);
+}
+
+START_TEST(test_deque_pick_front_head_token) {
+  deque = deque_init();
+  deque_push_back(deque, token);
+  deque_push_back(deque, ya_token);
+
+  calc_token_t picked = deque_pick_front(deque);
+
+  ck_assert_int_eq(is_number_tokens_equal(picked, token), true);
+  ck_assert_uint_eq(deque->size, 2);
+}
+
+START_TEST(test_deque_pick_back_tail_token) {
+  deque = deque_init();
+  deque_push_back(deque, token);
+  deque_push_back(deque, ya_token);
+
+  calc_token_t picked = deque_pick_back(deque);
+
+  ck_assert_int_eq(is_number_tokens_equal(picked, ya_token), true);
+  ck_assert_uint_eq(deque->size, 2);
 }
 
 START_TEST(test_deque_destroy_empty_deque) {
@@ -259,6 +281,8 @@ Suite *make_suite_calc_deque(void) {
   tcase_add_test(tc, test_deque_pop_back);
   tcase_add_test(tc, test_deque_pop_back_twice);
   tcase_add_test(tc, test_deque_pop_back_last_token);
+  tcase_add_test(tc, test_deque_pick_front_head_token);
+  tcase_add_test(tc, test_deque_pick_back_tail_token);
 
   TCase *tc_destroy = tcase_create("Deque destroy tests");
   suite_add_tcase(s, tc_destroy);

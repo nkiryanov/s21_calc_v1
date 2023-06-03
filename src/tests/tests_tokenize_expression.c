@@ -11,7 +11,6 @@ static void fill_expression_from_str(const char *string) {
   expression.length = strlen(string);
 }
 
-
 static void setup(void) {
   match = false;
   tokens = deque_init();
@@ -20,7 +19,7 @@ static void setup(void) {
   expression.length = 0;
 }
 
-static void destroy(void) { deque_destroy(&tokens); }
+static void teardown(void) { deque_destroy(&tokens); }
 
 START_TEST(test_read_expression_and_return_true) {
   fill_expression_from_str("sin(x)*10-180");
@@ -88,7 +87,7 @@ Suite *make_suite_tokenize_expression(void) {
   TCase *tc = tcase_create("Core");
 
   suite_add_tcase(s, tc);
-  tcase_add_checked_fixture(tc, setup, destroy);
+  tcase_add_checked_fixture(tc, setup, teardown);
 
   tcase_add_test(tc, test_read_expression_and_return_true);
   tcase_add_test(tc, test_read_expression_with_spaces_between_tokens);

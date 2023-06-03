@@ -92,6 +92,12 @@ calc_token_t deque_pop_back(calc_deque_t *deque) {
   return token;
 }
 
+calc_token_t deque_pick_front(calc_deque_t *deque) {
+  return deque->head->token;
+}
+
+calc_token_t deque_pick_back(calc_deque_t *deque) { return deque->tail->token; }
+
 void deque_destroy(calc_deque_t **deque_ptr) {
   calc_deque_t *deque = *deque_ptr;
 

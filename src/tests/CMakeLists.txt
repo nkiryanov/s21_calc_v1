@@ -10,6 +10,7 @@ add_executable("calc_tests_exec"
     tests_calc_deque.c
     tests_tokenize_once_function.c
     tests_tokenize_expression.c
+    tests_do_shunting_yard.c
     ${HEADER_LIST}
 )
 
