@@ -140,7 +140,7 @@ static bool tokenize_number(const char **iter, const char *end,
   if (number_end > number_start && *number_start != '.' &&
       *(number_end - 1) != '.' && count_points <= 1) {
     double matched_value = 0;
-    char number_substr[MAX_TOKEN_LENGTH];
+    char number_substr[MAX_TOKEN_LENGTH] = "";
     int is_double_scanned_ok = -1;
 
     strncpy(number_substr, number_start, number_end - number_start);

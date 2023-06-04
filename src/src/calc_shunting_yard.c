@@ -77,5 +77,7 @@ calc_deque_t* do_shunting_yard(calc_deque_t* math_tokens) {
     deque_push_back(rpn, deque_pop_back(tmp_stack));
   }
 
+  deque_destroy(&tmp_stack);
+
   return rpn;
 }
