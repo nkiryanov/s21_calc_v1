@@ -12,3 +12,10 @@ services:
     environment:
       - TZ="Europe/Moscow"
     restart: always
+
+  test-instance:
+    build: .
+    image: s21-calc-test-instance
+    volumes:
+      - ./:/code/
+    tty: true

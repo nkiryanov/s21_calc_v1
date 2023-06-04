@@ -1,6 +1,6 @@
 CMAKE_ROOT := .
 SRC_DIR := src
-BUILD_DIR := ../build
+BUILD_DIR := build
 
 SRC := $(shell find $(SRC_DIR) -name "*.c")
 HEADERS := $(shell find $(SRC_DIR) -name "*.h")
@@ -16,7 +16,7 @@ fmt:
 	@clang-format --style=Google --Werror -i $(SRC) $(HEADERS) && echo "Formatted"
 
 $(TESTS_EXEC):
-	cmake -S $(CMAKE_ROOT) -B $(BUILD_DIR)
+	cmake -S $(CMAKE_ROOT) -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug
 	cd $(BUILD_DIR) && cmake --build .
 
 tests: test
@@ -31,4 +31,4 @@ echo:
 	@echo TESTS_EXEC=$(TESTS_EXEC)
 
 clean:
-	rm -rf $(BUILD_DIR)
+	rm -rf $(BUILD_DIR)/*

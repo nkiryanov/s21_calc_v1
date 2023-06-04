@@ -1,26 +1,26 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+// #include <stdlib.h>
+// #include <string.h>
+// #include <math.h>
 
 #include "calc_rpn/calc_token.h"
 #include "calc_rpn/tokenize_expression.h"
 
 int main() {
-  const char *src = "*";
-  const char **iter = &src;
-  const char *end = src + strlen(src);
-
   calc_token_t token = {
-      .token_type = TOKEN_TYPE_NOT_SET,
-      .storage.number = 0,
+    .token_type = TOKEN_TYPE_NOT_SET,
+    .storage.number = 0,
   };
+
+  const char* string = "*";
+  const char **iter = &string;
+  const char* end = string + 1;
 
   tokenize_once(iter, end, &token);
 
+  tokenize_once(iter, end, &token);
   printf("Token type = %d\n", token.token_type);
+  printf("token storage = %lf\n", token.storage.number);
 
-  double y = 0;
-  y = (*token.storage.operator.function)(5, 4);
-
-  printf("return = %lf\n", y);
+  printf("some value=%lf\n", sin(101202));
 }

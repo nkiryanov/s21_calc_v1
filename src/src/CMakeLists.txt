@@ -12,6 +12,7 @@ add_library(
 
 target_include_directories("calc_rpn" PUBLIC ../include)
 
-# target_include_directories(calc_rpn
-#     INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}
-# )
+find_library(MATH_LIBRARY m)
+if(MATH_LIBRARY)
+    target_link_libraries("calc_rpn" PUBLIC ${MATH_LIBRARY})
+endif()
