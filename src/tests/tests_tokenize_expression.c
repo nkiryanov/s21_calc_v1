@@ -82,6 +82,36 @@ START_TEST(test_complex_expression_parsed_ok) {
 }
 END_TEST
 
+
+START_TEST(test_ya_complex_expression_parsed_ok) {
+  fill_expression_from_str("(sin(2 / (3+2)*5) mod 10)^2");
+
+  match = tokenize_expression(&expression, tokens);
+
+  ck_assert_int_eq(match, true);
+  ck_assert_int_eq(tokens->size, 18);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, LEFT_PARENTHESIS);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, FUNCTION);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, LEFT_PARENTHESIS);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, NUMBER);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, OPERATOR);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, LEFT_PARENTHESIS);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, NUMBER);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, OPERATOR);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, NUMBER);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, RIGHT_PARENTHESIS);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, OPERATOR);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, NUMBER);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, RIGHT_PARENTHESIS);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, OPERATOR);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, NUMBER);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, RIGHT_PARENTHESIS);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, OPERATOR);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, NUMBER);
+}
+END_TEST
+
+
 Suite *make_suite_tokenize_expression(void) {
   Suite *s = suite_create("tokenize_expression suite");
   TCase *tc = tcase_create("Core");
@@ -93,5 +123,7 @@ Suite *make_suite_tokenize_expression(void) {
   tcase_add_test(tc, test_read_expression_with_spaces_between_tokens);
   tcase_add_test(tc, test_return_false_and_partially_filled_deque_if_error);
   tcase_add_test(tc, test_complex_expression_parsed_ok);
+  tcase_add_test(tc, test_ya_complex_expression_parsed_ok);
+
   return s;
 }

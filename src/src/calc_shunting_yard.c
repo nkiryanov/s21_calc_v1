@@ -33,11 +33,13 @@ static void process_right_parenthesis(calc_deque_t* rpn,
     token = deque_pop_back(tmp_stack);
   }
 
-  token = deque_pick_back(tmp_stack);
+  if (tmp_stack->size != 0) {
+    token = deque_pick_back(tmp_stack);
 
-  if (token.token_type == FUNCTION) {
-    deque_push_back(rpn, token);
-    deque_pop_back(tmp_stack);
+    if (token.token_type == FUNCTION) {
+      deque_push_back(rpn, token);
+      deque_pop_back(tmp_stack);
+    }
   }
 }
 
