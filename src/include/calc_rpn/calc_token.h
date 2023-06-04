@@ -1,5 +1,5 @@
-#ifndef SRC_CALC_RPN_CALC_TOKEN_H_
-#define SRC_CALC_RPN_CALC_TOKEN_H_
+#ifndef CALC_RPN_CALC_TOKEN_H_
+#define CALC_RPN_CALC_TOKEN_H_
 
 #include <stdint.h>
 
@@ -9,13 +9,16 @@
 #define PARENTHESES "(", ")"
 #define VARIABLES "x"
 
+#define MAX_TOKEN_LENGTH 255
+
 enum TOKEN_TYPE {
-  NUMBER = 0,
-  LEFT_PARENTHESIS = 1,
-  RIGHT_PARENTHESIS = 2,
-  FUNCTION = 3,
-  OPERATOR = 4,
-  X_VARIABLE = 5,
+  TOKEN_TYPE_NOT_SET = 0,
+  NUMBER = 1,
+  LEFT_PARENTHESIS = 2,
+  RIGHT_PARENTHESIS = 3,
+  FUNCTION = 4,
+  OPERATOR = 5,
+  X_VARIABLE = 6,
 };
 
 enum OPERATOR_ASSOCIATION {
@@ -46,11 +49,11 @@ typedef struct calc_token {
 #define INIT_NUMBER_TOKEN(TOKEN, NUMBER_VALUE) \
   calc_token_t TOKEN = {                       \
       .token_type = NUMBER,                    \
-      .storage.number = NUMBER_VALUE,            \
+      .storage.number = NUMBER_VALUE,          \
   }
 
 // Calculate array length. Thanks https://stackoverflow.com/a/4415646
 #define COUNT_OF(x) \
   ((sizeof(x) / sizeof(0 [x])) / ((size_t)(!(sizeof(x) % sizeof(0 [x])))))
 
-#endif  // SRC_CALC_RPN_CALC_TOKEN_H_
+#endif  // CALC_RPN_CALC_TOKEN_H_

@@ -1,4 +1,4 @@
-#include "calc_deque.h"
+#include "calc_rpn/calc_deque.h"
 
 static calc_node_t *calloc_node(void) {
   calc_node_t *node = (calc_node_t *)malloc(sizeof(calc_node_t));
@@ -92,10 +92,18 @@ calc_token_t deque_pop_back(calc_deque_t *deque) {
   return token;
 }
 
+calc_token_t deque_pick_front(calc_deque_t *deque) {
+  return deque->head->token;
+}
+
+calc_token_t deque_pick_back(calc_deque_t *deque) { return deque->tail->token; }
+
 void deque_destroy(calc_deque_t **deque_ptr) {
   calc_deque_t *deque = *deque_ptr;
 
-  while (deque->size != 0) deque_pop_front(deque);
-  free(*deque_ptr);
-  *deque_ptr = NULL;
+  if (deque != NULL) {
+    while (deque->size != 0) deque_pop_front(deque);
+    free(*deque_ptr);
+    *deque_ptr = NULL;
+  }
 }

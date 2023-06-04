@@ -1,15 +1,18 @@
-cmake_minimum_required(VERSION 3.22.1)
+file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${smart_calc_SOURCE_DIR}/include/calc_rpn/*.h")
 
-project("smart_calc" VERSION 0.0.1)
+add_library(
+    "calc_rpn" STATIC
+    calc_deque.c
+    tokenize_expression.c
+    calc_shunting_yard.c
+    ${HEADER_LIST}
+    # validate.c
+    # validate_helpers.c
+)
 
-set(C_STANDARD 11)
-set(C_STANDARD_REQUIRED True)
+target_include_directories("calc_rpn" PUBLIC ../include)
 
-add_compile_options(-Wall -Werror -Wextra)
-
-add_subdirectory("calc_rpn")
-
-add_executable(smart_calc stupid_test.c)
-target_link_libraries(smart_calc calc_rpn)
-
-add_subdirectory("tests")
+find_library(MATH_LIBRARY m)
+if(MATH_LIBRARY)
+    target_link_libraries("calc_rpn" PUBLIC ${MATH_LIBRARY})
+endif()
