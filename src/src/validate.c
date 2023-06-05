@@ -1,75 +1,74 @@
-// #include "match_token.h"
-// #include "validate_helpers.h"
+#include "calc_rpn/validate.h"
 
-// static bool validate_length(calc_expr_t *expression);
-// // static bool validate_function_parenthesis(calc_expr_t *expression);
-// static bool validate_math_expression(calc_expr_t *expression);
+#include "calc_rpn/calc_deque.h"
+#include "calc_rpn/calc_expression.h"
+#include "calc_rpn/tokenize_expression.h"
 
-// bool validate(char *input) {
-//   calc_expr_t expression = {.string = input, .size = strlen(input)};
+static expression_t make_expression(const char* string) {
+  expression_t expression = {
+      .string = string,
+      .length = strlen(string),
+  };
+  return expression;
+}
 
-//   bool is_valid;
+static bool validate_length(expression_t* expression) {
+  return (expression->length <= MAX_TOKENS_COUNT) ? true : false;
+}
 
-//   is_valid = validate_length(&expression) &&
-//              //  validate_function_parenthesis(&expression) &&
-//              validate_math_expression(&expression);
+static bool validate_parentheses(expression_t* expression) {
+  int count_left_parenthesis = 0;
+  bool is_valid = true;
 
-//   return is_valid;
-// }
+  for (uint32_t i = 0; i != expression->length && is_valid == true; ++i) {
+    if (expression->string[i] == '(') ++count_left_parenthesis;
+    if (expression->string[i] == ')') {
+      if (count_left_parenthesis == 0) {
+        is_valid = false;
+      } else {
+        --count_left_parenthesis;
+      }
+    }
+  }
 
-// bool validate_length(calc_expr_t *expression) {
-//   return (expression->size <= 256);
-// }
+  return (is_valid == true && count_left_parenthesis == 0) ? true : false;
+}
 
-// // bool validate_function_parenthesis(calc_expr_t* expression) {
-// //   char func_tokens[][10] = {FUNCTIONS};
-// //   uint32_t count_tokens = COUNT_OF(func_tokens);
-// //   bool has_error = false;
+static bool is_right_node_token_left_parenthesis(calc_node_t* node) {
+  return (node->right != NULL &&
+          node->right->token.token_type == LEFT_PARENTHESIS)
+             ? true
+             : false;
+}
 
-// //   for (uint32_t start = 0; start < expression->size && !has_error;) {
-// //     bool function_match = false;
+static bool validate_function_parentheses(const calc_deque_t* tokens) {
+  calc_node_t* node = tokens->head;
+  bool is_valid = true;
 
-// //     function_match =
-// //         match_tokens(expression, &start, func_tokens, count_tokens);
+  while (node != NULL && is_valid == true) {
+    calc_token_t token = node->token;
 
-// //     if (function_match) {
-// //       // Check that function was the last token in expression or
-// //       // don not have open parenthesis after it
-// //       has_error =
-// //           (start == expression.size - 1 || expression.string[start] !=
-// '(');
-// //     } else {
-// //       ++start;
-// //     }
-// //   }
+    if (token.token_type == FUNCTION) {
+      is_valid = is_right_node_token_left_parenthesis(node);
+    }
 
-// //   return (has_error == false);
-// // }
+    node = node->right;
+  }
 
-// bool validate_math_expression(calc_expr_t *expression) {
-//   // Validate that the expression has only allowed tokens
-//   // that could be parsed and nothing else
-//   bool has_error = false;
+  return is_valid;
+}
 
-//   char const *iter = expression->string;
-//   char const *end = expression->string + expression->size - 1;
+bool validate(const char* math_string) {
+  bool is_valid = false;
+  expression_t expression = make_expression(math_string);
+  calc_deque_t* tokens = deque_init();
 
-//   while (iter != end && !has_error) {
-//     bool token_match = false;
+  is_valid = validate_length(&expression) &&
+             validate_parentheses(&expression) &&
+             tokenize_expression(&expression, tokens) &&
+             validate_function_parentheses(tokens);
 
-//     // Skip any spaces between any allowed tokens
-//     skip_space(&expression, &iter);
+  deque_destroy(&tokens);
 
-//     // Try to match number
-//     token_match = match_number(expression, &iter);
-
-//     // Try to match all the possible tokens except numbers
-//     if (!token_match) {
-//       token_match = match_token(&iter, start, tokens, count_tokens);
-//     }
-
-//     has_error = (token_match != true);
-//   }
-
-//   return (has_error == false);
-// }
+  return is_valid;
+}
