@@ -1,16 +1,7 @@
-#include "calc_rpn/validate.h"
-
 #include "calc_rpn/calc_deque.h"
 #include "calc_rpn/calc_expression.h"
+#include "calc_rpn/calc_rpn.h"
 #include "calc_rpn/tokenize_expression.h"
-
-static expression_t make_expression(const char* string) {
-  expression_t expression = {
-      .string = string,
-      .length = strlen(string),
-  };
-  return expression;
-}
 
 static bool validate_length(expression_t* expression) {
   return (expression->length <= MAX_TOKENS_COUNT) ? true : false;
