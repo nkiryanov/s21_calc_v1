@@ -1,7 +1,6 @@
-#include "calc_rpn/calc_rpn.h"
-
 #include "calc_rpn/calc_deque.h"
 #include "calc_rpn/calc_expression.h"
+#include "calc_rpn/calc_rpn.h"
 #include "calc_rpn/shunting_yard.h"
 #include "calc_rpn/tokenize_expression.h"
 

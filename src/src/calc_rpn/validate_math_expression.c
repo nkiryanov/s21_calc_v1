@@ -49,7 +49,7 @@ static bool validate_function_parentheses(const calc_deque_t* tokens) {
   return is_valid;
 }
 
-bool validate(const char* math_string) {
+bool validate_math_expression(const char* math_string) {
   bool is_valid = false;
   expression_t expression = make_expression(math_string);
   calc_deque_t* tokens = deque_init();
