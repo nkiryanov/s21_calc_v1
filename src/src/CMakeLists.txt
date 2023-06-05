@@ -3,9 +3,11 @@ file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${smart_calc_SOURCE_DIR}/include/calc_r
 add_library(
     "calc_rpn" STATIC
     calc_deque.c
+    calc_expression.c
     tokenize_expression.c
     calc_shunting_yard.c
     validate.c
+    calc_rpn.c
     ${HEADER_LIST}
 )
 

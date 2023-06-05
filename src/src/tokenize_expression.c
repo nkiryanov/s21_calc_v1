@@ -8,6 +8,14 @@ static double operator_div(double x, double y) { return x / y; }
 
 static double operator_mul(double x, double y) { return x * y; }
 
+static double fmod_math_correct(double x, double y) {
+  double result = fmod(x, y);
+
+  if (result < 0 && y > 0) result += y;
+
+  return result;
+}
+
 static void set_operator(double (*operator)(double, double),
                          calc_token_t *token) {
   token->token_type = OPERATOR;
@@ -16,8 +24,8 @@ static void set_operator(double (*operator)(double, double),
   if (operator== pow) {
     token->storage.operator.priority = HIGH_PRIORITY;
     token->storage.operator.association = RIGHT_ASSOCIATED;
-  } else if (operator== fmod || operator== operator_div || operator==
-             operator_mul) {
+  } else if (operator== fmod_math_correct || operator== operator_div ||
+             operator== operator_mul) {
     token->storage.operator.priority = HIGH_PRIORITY;
     token->storage.operator.association = LEFT_ASSOCIATED;
   } else {
@@ -96,7 +104,7 @@ static bool tokenize_operator(const char **iter, const char *end,
   else if (match_str_expression(iter, end, "*"))
     set_operator(operator_mul, token);
   else if (match_str_expression(iter, end, "mod"))
-    set_operator(fmod, token);
+    set_operator(fmod_math_correct, token);
   else if (match_str_expression(iter, end, "^"))
     set_operator(pow, token);
   else

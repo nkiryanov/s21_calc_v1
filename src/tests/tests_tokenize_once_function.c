@@ -105,12 +105,13 @@ START_TEST(test_match_mod_operator_correctly) {
 
   match = tokenize_once(&iter, end, &token);
 
+  double (*operator)(double, double) = token.storage.operator.function;
   ck_assert_int_eq(match, true);
   ck_assert_ptr_eq(iter, src + 22);  // moved to right 3 times (`mod` length)
   ck_assert_int_eq(token.token_type, OPERATOR);
   ck_assert_int_eq(token.storage.operator.priority, HIGH_PRIORITY);
   ck_assert_int_eq(token.storage.operator.association, LEFT_ASSOCIATED);
-  ck_assert_ptr_eq(token.storage.operator.function, fmod);
+  ck_assert_double_eq(operator(-2, 3), 1);  // call operator -2 fmod 3 = 1
 }
 
 START_TEST(test_left_parenthesis_matched_ok) {

@@ -1,6 +1,6 @@
 #include <check.h>
 
-#include "calc_rpn/validate.h"
+#include "calc_rpn/calc_rpn.h"
 
 START_TEST(test_validate_parentheses_basic) {
   bool is_valid = validate("()");
