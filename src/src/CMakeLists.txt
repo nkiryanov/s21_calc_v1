@@ -5,9 +5,9 @@ add_library(
     calc_deque.c
     calc_expression.c
     tokenize_expression.c
-    calc_shunting_yard.c
-    validate.c
-    calc_rpn.c
+    shunting_yard.c
+    calc_rpn/validate_math_expression.c
+    calc_rpn/evaluate_rpn.c
     ${HEADER_LIST}
 )
 
