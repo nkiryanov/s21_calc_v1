@@ -5,45 +5,59 @@
 #include "calc_rpn/shunting_yard.h"
 #include "calc_rpn/tokenize_expression.h"
 
+static void process_operator(calc_deque_t *result, calc_token_t *token) {
+  double (*operator)(double, double) = token->storage.operator.function;
+
+  double second_operand = deque_pop_back(result).storage.number;
+  double first_operand = deque_pop_back(result).storage.number;
+
+  calc_token_t token_to_save = {
+      .token_type = NUMBER,
+      .storage.number = operator(first_operand, second_operand),
+  };
+
+  deque_push_back(result, token_to_save);
+}
+
+static void process_function(calc_deque_t *result, calc_token_t *token) {
+  double (*function)(double) = token->storage.function;
+
+  double operand = deque_pop_back(result).storage.number;
+
+  calc_token_t token_to_save = {
+      .token_type = NUMBER,
+      .storage.number = function(operand),
+  };
+
+  deque_push_back(result, token_to_save);
+}
+
+static void process_variable(calc_deque_t *result, double variable_value) {
+  calc_token_t token_to_save = {
+      .token_type = NUMBER,
+      .storage.number = variable_value,
+  };
+
+  deque_push_back(result, token_to_save);
+}
+
 static double process_rpn(calc_deque_t *rpn, double x_value) {
   calc_deque_t *result = deque_init();
+  calc_node_t *node = rpn->head;
 
-  while (rpn->size != 0) {
-    calc_token_t token = deque_pop_front(rpn);
+  while (node != NULL) {
+    calc_token_t token = node->token;
 
     if (token.token_type == NUMBER) deque_push_back(result, token);
-    if (token.token_type == OPERATOR) {
-      double (*operator)(double, double) = token.storage.operator.function;
-      double second_operand = deque_pop_back(result).storage.number;
-      double first_operand = deque_pop_back(result).storage.number;
-      calc_token_t token_to_save = {
-          .token_type = NUMBER,
-          .storage.number = operator(first_operand, second_operand),
-      };
-      deque_push_back(result, token_to_save);
-    }
-    if (token.token_type == FUNCTION) {
-      double (*function)(double) = token.storage.function;
-      double operand = deque_pop_back(result).storage.number;
-      calc_token_t token_to_save = {
-          .token_type = NUMBER,
-          .storage.number = function(operand),
-      };
-      deque_push_back(result, token_to_save);
-    }
-    if (token.token_type == X_VARIABLE) {
-      calc_token_t token_to_save = {
-          .token_type = NUMBER,
-          .storage.number = x_value,
-      };
-      deque_push_back(result, token_to_save);
-    }
+    if (token.token_type == OPERATOR) process_operator(result, &token);
+    if (token.token_type == FUNCTION) process_function(result, &token);
+    if (token.token_type == X_VARIABLE) process_variable(result, x_value);
+
+    node = node->right;
   }
 
   double evaluated_result = deque_pop_back(result).storage.number;
-
   deque_destroy(&result);
-
   return evaluated_result;
 }
 
