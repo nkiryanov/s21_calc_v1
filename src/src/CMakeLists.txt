@@ -5,9 +5,8 @@ add_library(
     calc_deque.c
     tokenize_expression.c
     calc_shunting_yard.c
+    validate.c
     ${HEADER_LIST}
-    # validate.c
-    # validate_helpers.c
 )
 
 target_include_directories("calc_rpn" PUBLIC ../include)
