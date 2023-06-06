@@ -220,7 +220,7 @@ bool tokenize_expression(expression_t *expression, calc_deque_t *tokens) {
   for (is_token_match = true; is_token_match != false && iter != end;) {
     skip_space(&iter, end);
 
-    INIT_NUMBER_TOKEN(token, 0);
+    INIT_TYPE_NOT_SET_TOKEN(token);
 
     is_token_match = tokenize_once(&iter, end, &token);
 
