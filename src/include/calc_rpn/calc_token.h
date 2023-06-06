@@ -2,6 +2,7 @@
 #define CALC_RPN_CALC_TOKEN_H_
 
 #include <stdint.h>
+#include <stdbool.h>
 
 #define FUNCTIONS \
   "cos", "sin", "tan", "acos", "asin", "atan", "sqrt", "ln", "log"
@@ -36,6 +37,7 @@ typedef struct calc_operator {
   double (*function)(double, double);
   enum OPERATOR_ASSOCIATION association;
   enum OPERATOR_PRIORITY priority;
+  bool is_unary;
 } calc_operator_t;
 
 typedef struct calc_token {
@@ -47,10 +49,16 @@ typedef struct calc_token {
   } storage;
 } calc_token_t;
 
-#define INIT_NUMBER_TOKEN(TOKEN, NUMBER_VALUE) \
-  calc_token_t TOKEN = {                       \
-      .token_type = NUMBER,                    \
-      .storage.number = NUMBER_VALUE,          \
+#define INIT_TYPE_NOT_SET_TOKEN(TOKEN_NAME) \
+  calc_token_t TOKEN_NAME = {               \
+      .token_type = TOKEN_TYPE_NOT_SET,     \
+      .storage.number = 0,                  \
+  }
+
+#define INIT_NUMBER_TOKEN(TOKEN_NAME, NUMBER_VALUE) \
+  calc_token_t TOKEN_NAME = {                       \
+      .token_type = NUMBER,                         \
+      .storage.number = NUMBER_VALUE,               \
   }
 
 // Calculate array length. Thanks https://stackoverflow.com/a/4415646

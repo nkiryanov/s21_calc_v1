@@ -8,7 +8,7 @@ static calc_node_t *calloc_node(void) {
     exit(0);
   }
 
-  INIT_NUMBER_TOKEN(empty_token, 0);
+  INIT_TYPE_NOT_SET_TOKEN(empty_token);
 
   node->left = NULL;
   node->right = NULL;
