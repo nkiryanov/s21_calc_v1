@@ -18,9 +18,8 @@ static double fmod_math_correct(double x, double y) {
 
 static void set_binary_operator(double (*operator)(double, double),
                                 calc_token_t *token) {
-  token->token_type = OPERATOR;
+  token->token_type = BINARY_OPERATOR;
   token->storage.operator.function = operator;
-  token->storage.operator.is_unary = false;
 
   if (operator== pow) {
     token->storage.operator.priority = HIGH_PRIORITY;
@@ -181,12 +180,13 @@ static bool tokenize_variables(const char **iter, const char *end,
   return is_variable_matched;
 }
 
-static bool is_token_unary_operator(calc_deque_t *tokens, calc_token_t *token) {
+static void transform_to_unary_operator_if_needed(calc_deque_t *tokens,
+                                         calc_token_t *token) {
   // Edge cases. Do nothing if token not operator "-" or "+"
-  if (token->token_type != OPERATOR) return false;
-  if (!(*(token->storage.operator.function) == *operator_add ||
-        *(token->storage.operator.function) == *operator_sub))
-    return false;
+  if (token->token_type != BINARY_OPERATOR) return;
+  if (!(token->storage.operator.function == operator_add ||
+        token->storage.operator.function == operator_sub))
+    return;
 
   bool is_unary = false;
 
@@ -196,15 +196,7 @@ static bool is_token_unary_operator(calc_deque_t *tokens, calc_token_t *token) {
     is_unary = true;
   }
 
-  return is_unary;
-}
-
-static void postprocess_token(calc_deque_t *tokens, calc_token_t *token) {
-  // Produce any token modifications that hard to be done on tokenize process.
-
-  if (is_token_unary_operator(tokens, token)) {
-    token->storage.operator.is_unary = true;
-  }
+  if (is_unary) token->token_type = UNARY_OPERATOR;
 }
 
 bool tokenize_once(const char **iter, const char *end, calc_token_t *token) {
@@ -233,7 +225,7 @@ bool tokenize_expression(expression_t *expression, calc_deque_t *tokens) {
     is_token_match = tokenize_once(&iter, end, &token);
 
     if (is_token_match) {
-      postprocess_token(tokens, &token);
+      transform_to_unary_operator_if_needed(tokens, &token);
       deque_push_back(tokens, token);
     }
   }

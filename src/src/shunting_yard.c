@@ -1,6 +1,6 @@
 #include "calc_rpn/calc_deque.h"
 
-static void process_operator(calc_deque_t* rpn, calc_deque_t* temp_stack,
+static void process_binary_operator(calc_deque_t* rpn, calc_deque_t* temp_stack,
                              calc_token_t* token) {
   bool is_processing_finished = false;
 
@@ -8,7 +8,7 @@ static void process_operator(calc_deque_t* rpn, calc_deque_t* temp_stack,
     calc_token_t picked = deque_pick_back(temp_stack);
     is_processing_finished = true;
 
-    if (picked.token_type == OPERATOR) {
+    if (picked.token_type == BINARY_OPERATOR) {
       uint8_t on_stack_priority = picked.storage.operator.priority;
       uint8_t token_priority = token->storage.operator.priority;
       uint8_t token_association = token->storage.operator.association;
@@ -59,10 +59,11 @@ calc_deque_t* do_shunting_yard(calc_deque_t* math_tokens) {
         break;
       case FUNCTION:
       case LEFT_PARENTHESIS:
+      case UNARY_OPERATOR:
         deque_push_back(tmp_stack, token);
         break;
-      case OPERATOR:
-        process_operator(rpn, tmp_stack, &token);
+      case BINARY_OPERATOR:
+        process_binary_operator(rpn, tmp_stack, &token);
         deque_push_back(tmp_stack, token);
         break;
       case RIGHT_PARENTHESIS:

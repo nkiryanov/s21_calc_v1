@@ -48,7 +48,7 @@ static double process_rpn(calc_deque_t *rpn, double x_value) {
     calc_token_t token = node->token;
 
     if (token.token_type == NUMBER) deque_push_back(result, token);
-    if (token.token_type == OPERATOR) process_operator(result, &token);
+    if (token.token_type == BINARY_OPERATOR) process_operator(result, &token);
     if (token.token_type == FUNCTION) process_function(result, &token);
     if (token.token_type == X_VARIABLE) process_variable(result, x_value);
 

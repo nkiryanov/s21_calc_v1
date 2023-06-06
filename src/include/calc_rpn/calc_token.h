@@ -19,8 +19,9 @@ enum TOKEN_TYPE {
   LEFT_PARENTHESIS = 2,
   RIGHT_PARENTHESIS = 3,
   FUNCTION = 4,
-  OPERATOR = 5,
-  X_VARIABLE = 6,
+  BINARY_OPERATOR = 5,
+  UNARY_OPERATOR = 6,
+  X_VARIABLE = 7,
 };
 
 enum OPERATOR_ASSOCIATION {
@@ -37,7 +38,6 @@ typedef struct calc_operator {
   double (*function)(double, double);
   enum OPERATOR_ASSOCIATION association;
   enum OPERATOR_PRIORITY priority;
-  bool is_unary;
 } calc_operator_t;
 
 typedef struct calc_token {
