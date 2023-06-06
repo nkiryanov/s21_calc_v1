@@ -181,11 +181,11 @@ static bool tokenize_variables(const char **iter, const char *end,
 }
 
 static void transform_to_unary_operator_if_needed(calc_deque_t *tokens,
-                                         calc_token_t *token) {
+                                                  calc_token_t *token) {
   // Edge cases. Do nothing if token not operator "-" or "+"
   if (token->token_type != BINARY_OPERATOR) return;
-  if (!(token->storage.operator.function == operator_add ||
-        token->storage.operator.function == operator_sub))
+  if (!((token->storage.operator.function == operator_add) ||
+        (token->storage.operator.function == operator_sub)))
     return;
 
   bool is_unary = false;

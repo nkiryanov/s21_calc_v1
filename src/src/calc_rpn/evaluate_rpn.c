@@ -4,11 +4,25 @@
 #include "calc_rpn/shunting_yard.h"
 #include "calc_rpn/tokenize_expression.h"
 
-static void process_operator(calc_deque_t *result, calc_token_t *token) {
+static void process_binary_operator(calc_deque_t *result, calc_token_t *token) {
   double (*operator)(double, double) = token->storage.operator.function;
 
   double second_operand = deque_pop_back(result).storage.number;
   double first_operand = deque_pop_back(result).storage.number;
+
+  calc_token_t token_to_save = {
+      .token_type = NUMBER,
+      .storage.number = operator(first_operand, second_operand),
+  };
+
+  deque_push_back(result, token_to_save);
+}
+
+static void process_unary_operator(calc_deque_t *result, calc_token_t *token) {
+  double (*operator)(double, double) = token->storage.operator.function;
+
+  double second_operand = deque_pop_back(result).storage.number;
+  double first_operand = 0.0;
 
   calc_token_t token_to_save = {
       .token_type = NUMBER,
@@ -48,9 +62,13 @@ static double process_rpn(calc_deque_t *rpn, double x_value) {
     calc_token_t token = node->token;
 
     if (token.token_type == NUMBER) deque_push_back(result, token);
-    if (token.token_type == BINARY_OPERATOR) process_operator(result, &token);
     if (token.token_type == FUNCTION) process_function(result, &token);
     if (token.token_type == X_VARIABLE) process_variable(result, x_value);
+
+    if (token.token_type == BINARY_OPERATOR)
+      process_binary_operator(result, &token);
+    if (token.token_type == UNARY_OPERATOR)
+      process_unary_operator(result, &token);
 
     node = node->right;
   }
