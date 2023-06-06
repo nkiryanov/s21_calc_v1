@@ -43,7 +43,7 @@ static bool is_equal_tokens(calc_token_t* left, calc_token_t* right) {
     if (left->storage.function != right->storage.function) return false;
   }
 
-  if (token_type == OPERATOR) {
+  if (token_type == BINARY_OPERATOR || token_type == UNARY_OPERATOR) {
     calc_operator_t left_operator = left->storage.operator;
     calc_operator_t right_operator = right->storage.operator;
     if (left_operator.function != right_operator.function ||

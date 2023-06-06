@@ -67,7 +67,7 @@ START_TEST(test_match_add_operator_correctly) {
   double (*operator)(double, double) = token.storage.operator.function;
   ck_assert_int_eq(match, true);
   ck_assert_ptr_eq(iter, src + 17);  // moved to right once (`+` length)
-  ck_assert_int_eq(token.token_type, OPERATOR);
+  ck_assert_int_eq(token.token_type, BINARY_OPERATOR);
   ck_assert_int_eq(token.storage.operator.priority, LOW_PRIORITY);
   ck_assert_int_eq(token.storage.operator.association, LEFT_ASSOCIATED);
   ck_assert_double_eq((*operator)(2, 3), 5);  // call operator 2 + 3 = 5
@@ -81,7 +81,7 @@ START_TEST(test_match_mul_operator_correctly) {
   double (*operator)(double, double) = token.storage.operator.function;
   ck_assert_int_eq(match, true);
   ck_assert_ptr_eq(iter, src + 18);  // moved to right once (`*` length)
-  ck_assert_int_eq(token.token_type, OPERATOR);
+  ck_assert_int_eq(token.token_type, BINARY_OPERATOR);
   ck_assert_int_eq(token.storage.operator.priority, HIGH_PRIORITY);
   ck_assert_int_eq(token.storage.operator.association, LEFT_ASSOCIATED);
   ck_assert_double_eq(operator(2, 3), 6);  // call operator 2 * 3 = 6
@@ -94,7 +94,7 @@ START_TEST(test_match_pow_operator_correctly) {
 
   ck_assert_int_eq(match, true);
   ck_assert_ptr_eq(iter, src + 19);  // moved to right once (`^` length)
-  ck_assert_int_eq(token.token_type, OPERATOR);
+  ck_assert_int_eq(token.token_type, BINARY_OPERATOR);
   ck_assert_int_eq(token.storage.operator.priority, HIGH_PRIORITY);
   ck_assert_int_eq(token.storage.operator.association, RIGHT_ASSOCIATED);
   ck_assert_ptr_eq(token.storage.operator.function, pow);
@@ -108,7 +108,7 @@ START_TEST(test_match_mod_operator_correctly) {
   double (*operator)(double, double) = token.storage.operator.function;
   ck_assert_int_eq(match, true);
   ck_assert_ptr_eq(iter, src + 22);  // moved to right 3 times (`mod` length)
-  ck_assert_int_eq(token.token_type, OPERATOR);
+  ck_assert_int_eq(token.token_type, BINARY_OPERATOR);
   ck_assert_int_eq(token.storage.operator.priority, HIGH_PRIORITY);
   ck_assert_int_eq(token.storage.operator.association, LEFT_ASSOCIATED);
   ck_assert_double_eq(operator(-2, 3), 1);  // call operator -2 fmod 3 = 1

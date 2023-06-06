@@ -32,9 +32,9 @@ START_TEST(test_read_expression_and_return_true) {
   ck_assert_int_eq(deque_pop_front(tokens).token_type, LEFT_PARENTHESIS);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, X_VARIABLE);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, RIGHT_PARENTHESIS);
-  ck_assert_int_eq(deque_pop_front(tokens).token_type, OPERATOR);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, BINARY_OPERATOR);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, NUMBER);
-  ck_assert_int_eq(deque_pop_front(tokens).token_type, OPERATOR);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, BINARY_OPERATOR);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, NUMBER);
 }
 END_TEST
@@ -50,9 +50,9 @@ START_TEST(test_read_expression_with_spaces_between_tokens) {
   ck_assert_int_eq(deque_pop_front(tokens).token_type, LEFT_PARENTHESIS);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, X_VARIABLE);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, RIGHT_PARENTHESIS);
-  ck_assert_int_eq(deque_pop_front(tokens).token_type, OPERATOR);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, BINARY_OPERATOR);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, NUMBER);
-  ck_assert_int_eq(deque_pop_front(tokens).token_type, OPERATOR);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, BINARY_OPERATOR);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, NUMBER);
 }
 END_TEST
@@ -68,7 +68,7 @@ START_TEST(test_return_false_and_partially_filled_deque_if_error) {
   ck_assert_int_eq(deque_pop_front(tokens).token_type, LEFT_PARENTHESIS);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, X_VARIABLE);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, RIGHT_PARENTHESIS);
-  ck_assert_int_eq(deque_pop_front(tokens).token_type, OPERATOR);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, BINARY_OPERATOR);
 }
 END_TEST
 
@@ -94,20 +94,56 @@ START_TEST(test_ya_complex_expression_parsed_ok) {
   ck_assert_int_eq(deque_pop_front(tokens).token_type, FUNCTION);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, LEFT_PARENTHESIS);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, NUMBER);
-  ck_assert_int_eq(deque_pop_front(tokens).token_type, OPERATOR);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, BINARY_OPERATOR);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, LEFT_PARENTHESIS);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, NUMBER);
-  ck_assert_int_eq(deque_pop_front(tokens).token_type, OPERATOR);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, BINARY_OPERATOR);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, NUMBER);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, RIGHT_PARENTHESIS);
-  ck_assert_int_eq(deque_pop_front(tokens).token_type, OPERATOR);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, BINARY_OPERATOR);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, NUMBER);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, RIGHT_PARENTHESIS);
-  ck_assert_int_eq(deque_pop_front(tokens).token_type, OPERATOR);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, BINARY_OPERATOR);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, NUMBER);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, RIGHT_PARENTHESIS);
-  ck_assert_int_eq(deque_pop_front(tokens).token_type, OPERATOR);
+  ck_assert_int_eq(deque_pop_front(tokens).token_type, BINARY_OPERATOR);
   ck_assert_int_eq(deque_pop_front(tokens).token_type, NUMBER);
+}
+END_TEST
+
+START_TEST(test_unary_minus_at_the_at_the_beginning) {
+  fill_expression_from_str("-sin(1)");
+
+  match = tokenize_expression(&expression, tokens);
+
+  calc_token_t first_token = deque_pick_front(tokens);
+  ck_assert_int_eq(match, true);
+  ck_assert_int_eq(tokens->size, 5);
+  ck_assert_int_eq(first_token.token_type, UNARY_OPERATOR);
+}
+END_TEST
+
+START_TEST(test_unary_minus_after_left_parenthesis) {
+  fill_expression_from_str("sin(-1)");
+
+  match = tokenize_expression(&expression, tokens);
+
+  calc_token_t third_token = tokens->head->right->right->token;
+  ck_assert_int_eq(match, true);
+  ck_assert_int_eq(tokens->size, 5);
+  ck_assert_int_eq(third_token.token_type, UNARY_OPERATOR);
+}
+END_TEST
+
+START_TEST(test_plus_could_be_unary_too) {
+  fill_expression_from_str("+sin(1)");
+
+  match = tokenize_expression(&expression, tokens);
+
+  calc_token_t first_token = deque_pick_front(tokens);
+  ck_assert_int_eq(match, true);
+  ck_assert_int_eq(tokens->size, 5);
+  ck_assert_int_eq(first_token.token_type, UNARY_OPERATOR);
 }
 END_TEST
 
@@ -124,6 +160,9 @@ Suite *make_suite_tokenize_expression(void) {
   tcase_add_test(tc, test_return_false_and_partially_filled_deque_if_error);
   tcase_add_test(tc, test_complex_expression_parsed_ok);
   tcase_add_test(tc, test_ya_complex_expression_parsed_ok);
+  tcase_add_test(tc, test_unary_minus_at_the_at_the_beginning);
+  tcase_add_test(tc, test_unary_minus_after_left_parenthesis);
+  tcase_add_test(tc, test_plus_could_be_unary_too);
 
   return s;
 }

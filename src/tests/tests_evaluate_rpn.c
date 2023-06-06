@@ -52,6 +52,34 @@ START_TEST(test_to_big_value) {
 }
 END_TEST
 
+START_TEST(test_unary_operator_at_the_beginning) {
+  double result = 0;
+
+  result = evaluate_rpn("-sin(1)");
+
+  ck_assert_double_eq_tol(result, -0.8414709, EPS);
+}
+END_TEST
+
+START_TEST(test_unary_operator_after_parenthesis) {
+  double result = 0;
+
+  result = evaluate_rpn("2 * (-1 + 4)");
+
+  ck_assert_double_eq_tol(result, 6, EPS);
+}
+END_TEST
+
+
+START_TEST(test_unary_operator_after_parenthesis_with_function) {
+  double result = 0;
+
+  result = evaluate_rpn("2 * (-sin(3.142) + 4)");
+
+  ck_assert_double_eq_tol(result, 8.000814, EPS);
+}
+END_TEST
+
 Suite *make_evaluate_rpn_suite(void) {
   Suite *s = suite_create("evaluate_rpn suite");
   TCase *tc = tcase_create("Core");
@@ -63,6 +91,9 @@ Suite *make_evaluate_rpn_suite(void) {
   tcase_add_test(tc, test_ya_complicated_expression);
   tcase_add_test(tc, test_division_by_zero);
   tcase_add_test(tc, test_to_big_value);
+  tcase_add_test(tc, test_unary_operator_at_the_beginning);
+  tcase_add_test(tc, test_unary_operator_after_parenthesis);
+  tcase_add_test(tc, test_unary_operator_after_parenthesis_with_function);
 
   return s;
 }
