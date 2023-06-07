@@ -4,7 +4,7 @@ BUILD_DIR := build
 
 SRC := $(shell find $(SRC_DIR) -name "*.c")
 HEADERS := $(shell find $(SRC_DIR) -name "*.h")
-TESTS_EXEC := $(BUILD_DIR)/tests/calc_tests_exec
+TESTS_EXEC := $(BUILD_DIR)/tests/calc_rpn/tests_calc_rpn
 
 build: $(TESTS_EXEC)
 
