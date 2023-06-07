@@ -114,6 +114,41 @@ START_TEST(test_validate_operator_several_chars_length) {
 }
 END_TEST
 
+START_TEST(test_validate_several_continues_operators) {
+  bool is_valid = validate_math_expression("12 ++ 23");
+
+  ck_assert_int_eq(is_valid, false);
+}
+END_TEST
+
+START_TEST(test_validate_only_numbers) {
+  bool is_valid = validate_math_expression("(1)(23)");
+
+  ck_assert_int_eq(is_valid, false);
+}
+END_TEST
+
+START_TEST(test_validate_function_without_operands) {
+  bool is_valid = validate_math_expression("sin()");
+
+  ck_assert_int_eq(is_valid, false);
+}
+END_TEST
+
+START_TEST(test_validate_unary_operator_without_operands) {
+  bool is_valid = validate_math_expression("-");
+
+  ck_assert_int_eq(is_valid, false);
+}
+END_TEST
+
+START_TEST(test_validate_functions_and_operands_only) {
+  bool is_valid = validate_math_expression("sin(-)-cos(+)");
+
+  ck_assert_int_eq(is_valid, false);
+}
+END_TEST
+
 Suite *make_suite_validate_math_expression(void) {
   Suite *s = suite_create("calc validate_math_expression expresion");
   TCase *tc = tcase_create("Core");
@@ -134,6 +169,11 @@ Suite *make_suite_validate_math_expression(void) {
   tcase_add_test(tc, test_validate_function_nested);
   tcase_add_test(tc, test_validate_function_without_opened_parenthesis);
   tcase_add_test(tc, test_validate_operator_several_chars_length);
+  tcase_add_test(tc, test_validate_several_continues_operators);
+  tcase_add_test(tc, test_validate_only_numbers);
+  tcase_add_test(tc, test_validate_function_without_operands);
+  tcase_add_test(tc, test_validate_unary_operator_without_operands);
+  tcase_add_test(tc, test_validate_functions_and_operands_only);
 
   return s;
 }
