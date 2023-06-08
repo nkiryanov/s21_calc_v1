@@ -206,7 +206,6 @@ START_TEST(test_do_nothing_if_not_expected_variable_found) {
   ck_assert_ptr_eq(iter, src);
 }
 
-
 Suite *make_suite_tokenize_once_function(void) {
   Suite *s = suite_create("tokenize_once_function suite");
   TCase *tc = tcase_create("Core");

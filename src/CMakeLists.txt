@@ -23,4 +23,10 @@ add_compile_options(-Wall -Werror -Wextra)
 
 add_subdirectory("src")
 add_subdirectory("apps")
+
+
+# Unit tests
+list(APPEND CMAKE_CTEST_ARGUMENTS "--output-on-failure")
+
+enable_testing()
 add_subdirectory("tests")
