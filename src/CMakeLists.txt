@@ -9,8 +9,22 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     # Let's nicely support folders in IDEs
     set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+    # Add custom cmake utils
+    set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
+
+    # Testing only available if this is the main app
+    # Note this needs to be done in the main CMakeLists
+    # since it calls enable_testing, which must be in the
+    # main CMakeLists.
+    include(CTest)
+    list(APPEND CMAKE_CTEST_ARGUMENTS "--rerun-failed" "--output-on-failure")
+
+    # Set app wide compiller options
+    add_compile_options(-Wall -Werror -Wextra)
+
     # Docs only available if this is the main app
     find_package(Doxygen)
+
     if(Doxygen_FOUND)
         add_subdirectory(docs)
     else()
@@ -18,15 +32,12 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     endif()
 endif()
 
-
-add_compile_options(-Wall -Werror -Wextra)
-
 add_subdirectory("src")
 add_subdirectory("apps")
 
-
-# Unit tests
-list(APPEND CMAKE_CTEST_ARGUMENTS "--output-on-failure")
-
-enable_testing()
-add_subdirectory("tests")
+# Testing only available if this is the main app
+# Emergency override MODERN_CMAKE_BUILD_TESTING provided as well
+if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR MODERN_CMAKE_BUILD_TESTING)
+   AND BUILD_TESTING)
+  add_subdirectory("tests")
+endif()
