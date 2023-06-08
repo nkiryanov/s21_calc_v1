@@ -1,12 +1,13 @@
 CMAKE_ROOT := .
 SRC_DIR := src
+TESTS_DIR := tests
 BUILD_DIR := build
 
-SRC := $(shell find $(SRC_DIR) -name "*.c")
-HEADERS := $(shell find $(SRC_DIR) -name "*.h")
-TESTS_EXEC := $(BUILD_DIR)/tests/calc_rpn/tests_calc_rpn
+SRC := $(shell find $(SRC_DIR) $(TESTS_DIR) -name "*.c")
+HEADERS := $(shell find $(SRC_DIR) $(TESTS_DIR) -name "*.h")
+TESTS_EXEC := ${BUILD_DIR}/tests/calc_rpn/tests_calc_rpn
 
-build: $(TESTS_EXEC)
+.PHONY: lint fmt build test tests echo clean
 
 lint:
 	@clang-format --style=Google --Werror --dry-run $(SRC) $(HEADERS) && echo "Everything fine"
@@ -15,20 +16,20 @@ lint:
 fmt:
 	@clang-format --style=Google --Werror -i $(SRC) $(HEADERS) && echo "Formatted"
 
-$(TESTS_EXEC):
+build:
 	cmake -S $(CMAKE_ROOT) -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug
 	cd $(BUILD_DIR) && cmake --build .
 
 tests: test
+test: build
+	make -C ${BUILD_DIR} test
 
-test: $(TESTS_EXEC)
-	@$^
-
-valgrind_tests: $(TESTS_EXEC)
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose $^
+valgrind_tests: export CK_FORK = no
+valgrind_tests: build
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ${TESTS_EXEC}
 
 echo:
-	@echo TESTS_EXEC=$(TESTS_EXEC)
+	@echo CK_FORK=${CK_FORK}
 
 clean:
 	rm -rf $(BUILD_DIR)/*

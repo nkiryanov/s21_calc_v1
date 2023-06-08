@@ -13,10 +13,12 @@ add_executable("tests_calc_rpn"
 )
 
 target_link_libraries("tests_calc_rpn"
-    PRIVATE "calc_rpn" ${LIBCHECK_LINK_LIBRARIES}
+    PRIVATE "calc_rpn" ${LIBCHECK_LINK_LIBRARIES} pthread
 )
 
 target_include_directories(
     "tests_calc_rpn"
     PRIVATE ${LIBCHECK_INCLUDE_DIRS}
 )
+
+add_test(NAME tests_calc_rpn COMMAND tests_calc_rpn)
