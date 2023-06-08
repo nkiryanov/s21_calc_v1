@@ -5,7 +5,7 @@
 #include "calc_rpn/shunting_yard.h"
 #include "calc_rpn/tokenize_expression.h"
 
-#define EPS 10 - 7
+#define EPS 10e-6
 
 START_TEST(test_basic_expression_calculated_correctly) {
   double result = 0;
