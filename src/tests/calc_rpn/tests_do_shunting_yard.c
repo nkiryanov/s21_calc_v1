@@ -86,7 +86,6 @@ START_TEST(test_simple_expression_conversion) {
 }
 END_TEST
 
-
 START_TEST(test_pow_converted_correctly) {
   fulfill_tokens_from_string("2 ^ 3 ^ 4", math_tokens);
   fulfill_tokens_from_string("2 3 4 ^ ^", expected_rpn);

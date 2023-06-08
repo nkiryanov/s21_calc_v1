@@ -82,7 +82,6 @@ START_TEST(test_complex_expression_parsed_ok) {
 }
 END_TEST
 
-
 START_TEST(test_ya_complex_expression_parsed_ok) {
   fill_expression_from_str("(sin(2 / (3+2)*5) mod 10)^2");
 
@@ -146,7 +145,6 @@ START_TEST(test_plus_could_be_unary_too) {
   ck_assert_int_eq(first_token.token_type, UNARY_OPERATOR);
 }
 END_TEST
-
 
 Suite *make_suite_tokenize_expression(void) {
   Suite *s = suite_create("tokenize_expression suite");

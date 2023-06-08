@@ -46,7 +46,7 @@ END_TEST
 START_TEST(test_to_big_value) {
   double result = 0;
 
-  result = evaluate_rpn("2^3^4^5^6"); // can't be stored in double
+  result = evaluate_rpn("2^3^4^5^6");  // can't be stored in double
 
   ck_assert_double_infinite(result);
 }
@@ -69,7 +69,6 @@ START_TEST(test_unary_operator_after_parenthesis) {
   ck_assert_double_eq_tol(result, 6, EPS);
 }
 END_TEST
-
 
 START_TEST(test_unary_operator_after_parenthesis_with_function) {
   double result = 0;

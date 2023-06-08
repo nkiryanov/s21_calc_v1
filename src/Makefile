@@ -5,9 +5,11 @@ BUILD_DIR := build
 
 SRC := $(shell find $(SRC_DIR) $(TESTS_DIR) -name "*.c")
 HEADERS := $(shell find $(SRC_DIR) $(TESTS_DIR) -name "*.h")
-TESTS_EXEC := ${BUILD_DIR}/tests/calc_rpn/tests_calc_rpn
+TESTS_EXEC := $(BUILD_DIR)/tests/calc_rpn/tests_calc_rpn
 
 .PHONY: lint fmt build test tests echo clean
+
+all: build
 
 lint:
 	@clang-format --style=Google --Werror --dry-run $(SRC) $(HEADERS) && echo "Everything fine"
@@ -26,10 +28,10 @@ test: build
 
 valgrind_tests: export CK_FORK = no
 valgrind_tests: build
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ${TESTS_EXEC}
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose $(TESTS_EXEC)
 
 echo:
-	@echo CK_FORK=${CK_FORK}
+	@echo CK_FORK=$(CK_FORK)
 
 clean:
 	rm -rf $(BUILD_DIR)/*
