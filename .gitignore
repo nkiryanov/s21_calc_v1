@@ -68,3 +68,6 @@ venv/
 
 # Cmake build folder
 build/
+
+# DearImgui data
+imgui.ini
