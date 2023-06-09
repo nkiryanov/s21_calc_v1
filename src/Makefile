@@ -22,6 +22,9 @@ build:
 	cmake -S $(CMAKE_ROOT) -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug
 	cd $(BUILD_DIR) && cmake --build .
 
+app: build
+	$(BUILD_DIR)/apps/smart_calc_app
+
 tests: test
 test: build
 	make -C ${BUILD_DIR} test

@@ -11,7 +11,10 @@ add_library(
     ${HEADER_LIST}
 )
 
-target_include_directories("calc_rpn" PUBLIC ../../include)
+target_include_directories(
+    "calc_rpn"
+    PUBLIC ../../include/
+)
 
 find_library(MATH_LIBRARY m)
 if(MATH_LIBRARY)

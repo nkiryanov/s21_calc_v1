@@ -3,8 +3,11 @@ cmake_minimum_required(VERSION 3.22.1)
 project("smart_calc" VERSION 0.0.1)
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-    set(C_STANDARD 11)
-    set(C_STANDARD_REQUIRED True)
+    set(CMAKE_C_STANDARD 11)
+    set(CMAKE_C_STANDARD_REQUIRED True)
+
+    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_STANDARD_REQUIRED True)
 
     # Let's nicely support folders in IDEs
     set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -16,7 +19,8 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     # Note this needs to be done in the main CMakeLists
     # since it calls enable_testing, which must be in the
     # main CMakeLists.
-    include(CTest)
+    enable_testing()
+    set(BUILD_TESTING True)
     list(APPEND CMAKE_CTEST_ARGUMENTS "--rerun-failed" "--output-on-failure")
 
     # Set app wide compiller options
@@ -32,12 +36,15 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     endif()
 endif()
 
-add_subdirectory("src")
+add_subdirectory("src/calc_rpn")
+add_subdirectory("src/imgui")
+add_subdirectory("src/smart_calc")
 add_subdirectory("apps")
+
 
 # Testing only available if this is the main app
 # Emergency override MODERN_CMAKE_BUILD_TESTING provided as well
 if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR MODERN_CMAKE_BUILD_TESTING)
    AND BUILD_TESTING)
-  add_subdirectory("tests")
+  add_subdirectory("tests/calc_rpn")
 endif()
