@@ -6,23 +6,28 @@ on:
 jobs:
   lint-build-test:
     runs-on: ubuntu-latest
+    container: klyaxa/qt-dev:6.5.1
     defaults:
       run:
         working-directory: src
+        shell: bash
+
     steps:
       - uses: actions/checkout@v3
 
-      - name: install dependencies
-        run: sudo apt-get install check lcov clang-format valgrind cppcheck -y
+      - name: where-i-am
+        run: |
+          pwd
+          ls -la
 
       - name: lint
         run: make lint
 
       - name: build is ok
-        run: make
+        run: make build
 
       - name: test
         run: make test
 
       - name: check memory leaks
-        run: make valgrind_tests 
+        run: make valgrind_tests

@@ -68,3 +68,7 @@ venv/
 
 # Cmake build folder
 build/
+
+# Qt specific staff
+build-src-Qt_*/
+CMakeLists.txt.user

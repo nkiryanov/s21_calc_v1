@@ -14,8 +14,8 @@ services:
     restart: always
 
   test-instance:
-    build: .
-    image: s21-calc-test-instance
+    image: klyaxa/qt-dev:6.5.1
     volumes:
       - ./:/code/
     tty: true
+    command: bash
