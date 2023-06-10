@@ -1,9 +1,13 @@
-file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${smart_calc_SOURCE_DIR}/include/smart_calc/*.h")
+file(GLOB HEADER_LIST CONFIGURE_DEPENDS
+    "${smart_calc_SOURCE_DIR}/include/smart_calc/*.hpp"
+    "${smart_calc_SOURCE_DIR}/include/smart_calc/*.h"
+)
 
 add_library(
     "smart_calc" STATIC
-    smartCalc.cpp
-    smartCalcGlfwInit.cpp
+    smart_calc.cpp
+    smart_calc_state.cpp
+    base_calc.cpp
     ${HEADER_LIST}
 )
 
@@ -14,5 +18,5 @@ target_include_directories(
 
 target_link_libraries(
     "smart_calc"
-    PRIVATE "imgui"
+    PRIVATE "imgui" "calc_rpn"
 )

@@ -4,7 +4,8 @@
 #include "calc_rpn/tokenize_expression.h"
 
 static bool validate_length(expression_t* expression) {
-  return (expression->length <= MAX_TOKENS_COUNT) ? true : false;
+  uint32_t length = expression->length;
+  return (length <= MAX_TOKENS_COUNT && length > 0) ? true : false;
 }
 
 static bool validate_parentheses(expression_t* expression) {

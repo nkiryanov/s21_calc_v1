@@ -1,5 +1,5 @@
-#include "smartCalc/smartCalc.hpp"
+#include "smart_calc/smart_calc.hpp"
 
 int main() {
-    smartCalc();
+    SmartCalc::smartCalc();
 }
