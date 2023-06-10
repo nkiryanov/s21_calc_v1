@@ -58,9 +58,15 @@ static bool match_str_expression(const char **iter, const char *end,
   return is_matched;
 }
 
-static void skip_space(const char **iter, const char *end) {
-  for (; **iter == ' ' && *iter != end; ++(*iter)) {
+static bool skip_space_once(const char **iter, const char *end) {
+  bool is_space_skipped = false;
+
+  if (**iter == ' ' && *iter != end) {
+    ++(*iter);
+    is_space_skipped = true;
   }
+
+  return is_space_skipped;
 }
 
 static bool tokenize_parenthesis(const char **iter, const char *end,
@@ -218,7 +224,7 @@ bool tokenize_expression(expression_t *expression, calc_deque_t *tokens) {
   const char *end = expression->string + expression->length;
 
   for (is_token_match = true; is_token_match != false && iter != end;) {
-    skip_space(&iter, end);
+    if (skip_space_once(&iter, end)) continue;
 
     INIT_TYPE_NOT_SET_TOKEN(token);
 

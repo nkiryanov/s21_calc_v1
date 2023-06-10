@@ -61,8 +61,4 @@ typedef struct calc_token {
       .storage.number = NUMBER_VALUE,               \
   }
 
-// Calculate array length. Thanks https://stackoverflow.com/a/4415646
-#define COUNT_OF(x) \
-  ((sizeof(x) / sizeof(0 [x])) / ((size_t)(!(sizeof(x) % sizeof(0 [x])))))
-
 #endif  // CALC_RPN_CALC_TOKEN_H_
