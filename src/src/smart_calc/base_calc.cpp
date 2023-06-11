@@ -14,24 +14,25 @@ void SmartCalc::BaseCalc(bool *is_window_open) {
   static double x_value = 0.0;
 
   size_t expression_length = strlen(math_expression);
-  bool is_evaluate_pressed = false;
-
-  if (*is_window_open == false) return;
+  bool is_expression_need_evaluate = false;
 
   if (expression_length != 0) {
     is_expression_valid =
         validate_math_expression(math_expression, is_x_allowed);
   }
 
+  ImGui::SetNextWindowPos(ImVec2(350, 70), ImGuiCond_FirstUseEver);
+  ImGui::SetNextWindowSize(ImVec2(550, 350), ImGuiCond_FirstUseEver);
   ImGui::Begin("Calculator", is_window_open);
   ImGui::SeparatorText("Math expression:");
 
-  ImGui::InputTextWithHint("##MathExpression", "enter expression here",
-                           math_expression, IM_ARRAYSIZE(math_expression));
+  is_expression_need_evaluate = ImGui::InputTextWithHint(
+      "##MathExpression", "enter expression here", math_expression,
+      IM_ARRAYSIZE(math_expression), ImGuiInputTextFlags_EnterReturnsTrue);
 
   if (is_expression_valid == false) ImGui::BeginDisabled();
   ImGui::SameLine();
-  is_evaluate_pressed = ImGui::Button("=", ImVec2(50, 0));
+  is_expression_need_evaluate |= ImGui::Button("=", ImVec2(50, 0));
   ImGui::SameLine();
   ImGui::Text("%lf", result);
   if (is_expression_valid == false) ImGui::EndDisabled();
@@ -43,7 +44,7 @@ void SmartCalc::BaseCalc(bool *is_window_open) {
     ImGui::NewLine();
   }
 
-  if (is_expression_valid && is_evaluate_pressed) {
+  if (is_expression_valid && is_expression_need_evaluate) {
     result = evaluate_math(math_expression, x_value);
   }
 
@@ -53,6 +54,7 @@ void SmartCalc::BaseCalc(bool *is_window_open) {
   ImGui::InputDouble("##x value", &x_value);
   if (is_x_allowed == false) ImGui::EndDisabled();
 
+  ImGui::NewLine();
   ImGui::SeparatorText("How to use:");
   ImGui::Text("Write a mathematical expression the way you used to.");
   ImGui::NewLine();
