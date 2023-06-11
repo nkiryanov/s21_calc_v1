@@ -10,7 +10,7 @@ add_executable("tests_calc_rpn"
     tests_tokenize_expression.c
     tests_do_shunting_yard.c
     tests_validate_math_expression.c
-    tests_evaluate_rpn.c
+    tests_evaluate_math.c
     ${HEADER_LIST}
 )
 

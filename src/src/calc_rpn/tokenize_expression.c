@@ -58,9 +58,15 @@ static bool match_str_expression(const char **iter, const char *end,
   return is_matched;
 }
 
-static void skip_space(const char **iter, const char *end) {
-  for (; **iter == ' ' && *iter != end; ++(*iter)) {
+static bool skip_space_once(const char **iter, const char *end) {
+  bool is_space_skipped = false;
+
+  if (**iter == ' ' && *iter != end) {
+    ++(*iter);
+    is_space_skipped = true;
   }
+
+  return is_space_skipped;
 }
 
 static bool tokenize_parenthesis(const char **iter, const char *end,
@@ -180,26 +186,45 @@ static bool tokenize_variables(const char **iter, const char *end,
   return is_variable_matched;
 }
 
-static void transform_to_unary_operator_if_needed(calc_deque_t *tokens,
-                                                  calc_token_t *token) {
-  // Edge cases. Do nothing if token not operator "-" or "+"
-  if (token->token_type != BINARY_OPERATOR) return;
-  if (!((token->storage.operator.function == operator_add) ||
-        (token->storage.operator.function == operator_sub)))
-    return;
+static void transform_binary_to_unary_if_needed(calc_deque_t *tokens) {
+  if (tokens->size == 0) return;
 
-  bool is_unary = false;
+  calc_node_t *node = tokens->head;
 
-  if (tokens->size == 0) is_unary = true;
-  if (tokens->size >= 1 &&
-      deque_pick_back(tokens).token_type == LEFT_PARENTHESIS) {
-    is_unary = true;
+  while (node != NULL) {
+    if (node->token.token_type != BINARY_OPERATOR) {
+      node = node->right;
+      continue;
+    }
+
+    calc_node_t *left_node = node->left;
+    calc_node_t *right_node = node->right;
+
+    if (left_node == NULL) {
+      node->token.token_type = UNARY_OPERATOR;
+    }
+
+    if (left_node != NULL && left_node->token.token_type == LEFT_PARENTHESIS) {
+      node->token.token_type = UNARY_OPERATOR;
+    }
+
+    if (left_node != NULL && right_node != NULL) {
+      enum TOKEN_TYPE left_type = left_node->token.token_type;
+      enum TOKEN_TYPE right_type = right_node->token.token_type;
+
+      if (left_type == BINARY_OPERATOR &&
+          (right_type == NUMBER || right_type == X_VARIABLE ||
+           right_type == FUNCTION || right_type == LEFT_PARENTHESIS)) {
+        node->token.token_type = UNARY_OPERATOR;
+      }
+    }
+
+    node = node->right;
   }
-
-  if (is_unary) token->token_type = UNARY_OPERATOR;
 }
 
-bool tokenize_once(const char **iter, const char *end, calc_token_t *token) {
+bool tokenize_once(const char **iter, const char *end, calc_token_t *token,
+                   bool variable_allowed) {
   bool tokenized = false;
 
   tokenized = tokenize_parenthesis(iter, end, token);
@@ -207,28 +232,33 @@ bool tokenize_once(const char **iter, const char *end, calc_token_t *token) {
   if (!tokenized) tokenized = tokenize_binary_operator(iter, end, token);
   if (!tokenized) tokenized = tokenize_function(iter, end, token);
   if (!tokenized) tokenized = tokenize_number(iter, end, token);
-  if (!tokenized) tokenized = tokenize_variables(iter, end, token);
+
+  if (!tokenized && variable_allowed) {
+    tokenized = tokenize_variables(iter, end, token);
+  }
 
   return tokenized;
 }
 
-bool tokenize_expression(expression_t *expression, calc_deque_t *tokens) {
+bool tokenize_expression(expression_t *expression, calc_deque_t *tokens,
+                         bool variable_allowed) {
   bool is_token_match;
   const char *iter = expression->string;
   const char *end = expression->string + expression->length;
 
   for (is_token_match = true; is_token_match != false && iter != end;) {
-    skip_space(&iter, end);
+    if (skip_space_once(&iter, end)) continue;
 
     INIT_TYPE_NOT_SET_TOKEN(token);
 
-    is_token_match = tokenize_once(&iter, end, &token);
+    is_token_match = tokenize_once(&iter, end, &token, variable_allowed);
 
     if (is_token_match) {
-      transform_to_unary_operator_if_needed(tokens, &token);
       deque_push_back(tokens, token);
     }
   }
+
+  transform_binary_to_unary_if_needed(tokens);
 
   return is_token_match;
 }

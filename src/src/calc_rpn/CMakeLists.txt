@@ -7,11 +7,14 @@ add_library(
     tokenize_expression.c
     shunting_yard.c
     validate_math_expression.c
-    evaluate_rpn.c
+    evaluate_math.c
     ${HEADER_LIST}
 )
 
-target_include_directories("calc_rpn" PUBLIC ../../include)
+target_include_directories(
+    "calc_rpn"
+    PUBLIC ../../include/
+)
 
 find_library(MATH_LIBRARY m)
 if(MATH_LIBRARY)

@@ -18,9 +18,12 @@ lint:
 fmt:
 	@clang-format --style=Google --Werror -i $(SRC) $(HEADERS) && echo "Formatted"
 
-build:
+build: build_dir
 	cmake -S $(CMAKE_ROOT) -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=Debug
 	cd $(BUILD_DIR) && cmake --build .
+
+app: build
+	$(BUILD_DIR)/apps/smart_calc_app
 
 tests: test
 test: build
@@ -35,3 +38,6 @@ echo:
 
 clean:
 	rm -rf $(BUILD_DIR)/*
+
+build_dir:
+	mkdir -p $(BUILD_DIR)

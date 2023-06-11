@@ -1,9 +1,9 @@
 add_executable(
-    "manual_test"
-    manual_test.c
+    "smart_calc_app"
+    smart_calc_app.cpp
 )
 
 target_link_libraries(
-    "manual_test"
-    PRIVATE "calc_rpn"
+    "smart_calc_app"
+    PRIVATE smart_calc
 )

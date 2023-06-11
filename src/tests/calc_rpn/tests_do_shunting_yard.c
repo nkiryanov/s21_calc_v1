@@ -27,7 +27,7 @@ static void fulfill_tokens_from_string(const char* string,
   str_expression.string = string;
   str_expression.length = strlen(string);
 
-  tokenize_expression(&str_expression, deque_to_fulfill);
+  tokenize_expression(&str_expression, deque_to_fulfill, true);
 }
 
 static bool is_equal_tokens(calc_token_t* left, calc_token_t* right) {
