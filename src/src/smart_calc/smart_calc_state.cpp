@@ -5,8 +5,9 @@
 #include "imgui/imgui_impl_opengl3.h"
 #define GL_SILENCE_DEPRECATION
 #include <GLFW/glfw3.h>
-#include <stdio.h>
-#include <string.h>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
 
 using namespace SmartCalc;
 
@@ -53,7 +54,7 @@ void CalcState::SetGlfwErrorCallback() {
 void CalcState::InitGlfw() {
   if (glfwInit() == GLFW_FALSE) {
     fprintf(stderr, "Can't initialize GLFW instance");
-    exit(1);
+    std::exit(EXIT_FAILURE);
   }
 }
 
@@ -65,7 +66,7 @@ GLFWwindow* CalcState::CreateGlfwWindow(int width, int height,
 
   if (window == nullptr) {
     fprintf(stderr, "Can't create GLFW window.");
-    exit(1);
+    std::exit(EXIT_FAILURE);
   }
 
   glfwMakeContextCurrent(window);

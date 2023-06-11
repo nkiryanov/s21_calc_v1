@@ -17,7 +17,7 @@ int SmartCalc::smartCalc() {
 
   // Our state
   bool show_demo_window = false;
-  bool show_calc_window = false;
+  bool show_calc_window = true;
   ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
   // Main loop
@@ -34,46 +34,17 @@ int SmartCalc::smartCalc() {
     // ImGui!).
     if (show_demo_window) ImGui::ShowDemoWindow(&show_demo_window);
 
-    SmartCalc::BaseCalc();
-
     // 2. Show a simple window that we create ourselves. We use a Begin/End pair
     // to create a named window.
     {
-      static float f = 0.0f;
-      static int counter = 0;
-
-      ImGui::Begin("Main menu");
-      ImGui::Text("This is some useful text 😃.");
+      ImGui::Begin("Menu");
       ImGui::Checkbox("Calculator", &show_calc_window);
       ImGui::Checkbox("Demo Window", &show_demo_window);
-
-      ImGui::SliderFloat(
-          "float", &f, 0.0f,
-          1.0f);  // Edit 1 float using a slider from 0.0f to 1.0f
-      ImGui::ColorEdit3(
-          "clear color",
-          (float*)&clear_color);  // Edit 3 floats representing a color
-
-      if (ImGui::Button("Button")) counter++;
-      ImGui::SameLine();
-      ImGui::Text("counter = %d", counter);
-
-      ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
-                  1000.0f / calc_state.io->Framerate, calc_state.io->Framerate);
       ImGui::End();
     }
 
-    // 3. Show another simple window.
-    if (show_calc_window) {
-      ImGui::Begin(
-          "Another Window",
-          &show_calc_window);  // Pass a pointer to our bool variable (the
-                                  // window will have a closing button that will
-                                  // clear the bool when clicked)
-      ImGui::Text("Hello from another window!");
-      if (ImGui::Button("Close Me")) show_calc_window = false;
-      ImGui::End();
-    }
+    // 3. Show calculator
+    SmartCalc::BaseCalc(&show_calc_window);
 
     // Rendering
     ImGui::Render();

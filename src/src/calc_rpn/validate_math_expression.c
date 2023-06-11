@@ -153,14 +153,14 @@ static bool validate_math_correct(const calc_deque_t* tokens) {
   return is_valid;
 }
 
-bool validate_math_expression(const char* math_string) {
+bool validate_math_expression(const char* math_string, bool variable_allowed) {
   bool is_valid = false;
   expression_t expression = make_expression(math_string);
   calc_deque_t* tokens = deque_init();
 
   is_valid =
       validate_length(&expression) && validate_parentheses(&expression) &&
-      tokenize_expression(&expression, tokens) &&
+      tokenize_expression(&expression, tokens, variable_allowed) &&
       validate_function_parentheses(tokens) && validate_math_correct(tokens);
 
   deque_destroy(&tokens);

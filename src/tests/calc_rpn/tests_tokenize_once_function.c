@@ -18,7 +18,7 @@ static void setup(void) {
 START_TEST(test_return_true_move_iter_and_set_token_if_match) {
   const char *iter = src;
 
-  match = tokenize_once(&iter, end, &token);
+  match = tokenize_once(&iter, end, &token, true);
 
   ck_assert_int_eq(match, true);
   ck_assert_ptr_eq(iter, src + 3);  // should be moved by len of `to_match`
@@ -30,7 +30,7 @@ END_TEST
 START_TEST(test_return_false_not_change_iter_and_token_if_not_match) {
   const char *iter = src + 1;
 
-  match = tokenize_once(&iter, end, &token);
+  match = tokenize_once(&iter, end, &token, true);
 
   ck_assert_int_eq(match, false);
   ck_assert_ptr_eq(iter, src + 1);  // should not be moved
@@ -41,7 +41,7 @@ START_TEST(test_return_false_not_change_iter_and_token_if_not_match) {
 START_TEST(test_not_fail_if_iter_start_close_to_end_to_match) {
   const char *iter = end - 1;
 
-  match = tokenize_once(&iter, end, &token);
+  match = tokenize_once(&iter, end, &token, true);
 
   ck_assert_int_eq(match, false);
   ck_assert_ptr_eq(iter, end - 1);  // not moved
@@ -51,7 +51,7 @@ START_TEST(test_not_fail_if_iter_start_close_to_end_to_match) {
 START_TEST(test_match_token_if_token_match_exactly_to_the_end) {
   const char *iter = end - 2;
 
-  match = tokenize_once(&iter, end, &token);
+  match = tokenize_once(&iter, end, &token, true);
 
   ck_assert_int_eq(match, true);
   ck_assert_ptr_eq(iter, end);  // moved exactly to the end
@@ -62,7 +62,7 @@ START_TEST(test_match_token_if_token_match_exactly_to_the_end) {
 START_TEST(test_match_add_operator_correctly) {
   const char *iter = src + 16;  // should match `+`
 
-  match = tokenize_once(&iter, end, &token);
+  match = tokenize_once(&iter, end, &token, true);
 
   double (*operator)(double, double) = token.storage.operator.function;
   ck_assert_int_eq(match, true);
@@ -76,7 +76,7 @@ START_TEST(test_match_add_operator_correctly) {
 START_TEST(test_match_mul_operator_correctly) {
   const char *iter = src + 17;  // should match `*`
 
-  match = tokenize_once(&iter, end, &token);
+  match = tokenize_once(&iter, end, &token, true);
 
   double (*operator)(double, double) = token.storage.operator.function;
   ck_assert_int_eq(match, true);
@@ -90,7 +90,7 @@ START_TEST(test_match_mul_operator_correctly) {
 START_TEST(test_match_pow_operator_correctly) {
   const char *iter = src + 18;  // should match `^`
 
-  match = tokenize_once(&iter, end, &token);
+  match = tokenize_once(&iter, end, &token, true);
 
   ck_assert_int_eq(match, true);
   ck_assert_ptr_eq(iter, src + 19);  // moved to right once (`^` length)
@@ -103,7 +103,7 @@ START_TEST(test_match_pow_operator_correctly) {
 START_TEST(test_match_mod_operator_correctly) {
   const char *iter = src + 19;  // should match `mod`
 
-  match = tokenize_once(&iter, end, &token);
+  match = tokenize_once(&iter, end, &token, true);
 
   double (*operator)(double, double) = token.storage.operator.function;
   ck_assert_int_eq(match, true);
@@ -117,7 +117,7 @@ START_TEST(test_match_mod_operator_correctly) {
 START_TEST(test_left_parenthesis_matched_ok) {
   const char *iter = src + 3;  // should match `(`
 
-  match = tokenize_once(&iter, end, &token);
+  match = tokenize_once(&iter, end, &token, true);
 
   ck_assert_int_eq(match, true);
   ck_assert_ptr_eq(iter, src + 4);  // moved to right once == `(` length
@@ -128,7 +128,7 @@ START_TEST(test_left_parenthesis_matched_ok) {
 START_TEST(test_right_parenthesis_matched_ok) {
   const char *iter = src + 14;  // should match `)`
 
-  match = tokenize_once(&iter, end, &token);
+  match = tokenize_once(&iter, end, &token, true);
 
   ck_assert_int_eq(match, true);
   ck_assert_ptr_eq(iter, src + 15);  // moved to right once == `)` length
@@ -141,7 +141,7 @@ START_TEST(test_number_matched_ok) {
   const char *iter = src;
   const char *end = src + strlen(src);
 
-  match = tokenize_once(&iter, end, &token);
+  match = tokenize_once(&iter, end, &token, true);
 
   ck_assert_int_eq(match, true);
   ck_assert_ptr_eq(iter, src + 6);
@@ -154,7 +154,7 @@ START_TEST(test_do_not_match_number_if_two_points_found) {
   const char *iter = src;
   const char *end = src + strlen(src);
 
-  match = tokenize_once(&iter, end, &token);
+  match = tokenize_once(&iter, end, &token, true);
 
   ck_assert_int_eq(match, false);
   ck_assert_ptr_eq(iter, src);
@@ -165,7 +165,7 @@ START_TEST(test_do_not_match_number_if_number_started_from_point) {
   const char *iter = src;
   const char *end = src + strlen(src);
 
-  match = tokenize_once(&iter, end, &token);
+  match = tokenize_once(&iter, end, &token, true);
 
   ck_assert_int_eq(match, false);
   ck_assert_ptr_eq(iter, src);
@@ -176,18 +176,18 @@ START_TEST(test_do_not_match_number_if_number_ended_with_point) {
   const char *iter = src;
   const char *end = src + strlen(src);
 
-  match = tokenize_once(&iter, end, &token);
+  match = tokenize_once(&iter, end, &token, true);
 
   ck_assert_int_eq(match, false);
   ck_assert_ptr_eq(iter, src);
 }
 
-START_TEST(test_match_x_variable) {
+START_TEST(test_match_x_variable_if_allowed) {
   const char *src = "x";
   const char *iter = src;
   const char *end = src + strlen(src);
 
-  match = tokenize_once(&iter, end, &token);
+  match = tokenize_once(&iter, end, &token, true);
 
   ck_assert_int_eq(match, true);
   ck_assert_ptr_eq(iter, end);
@@ -195,12 +195,23 @@ START_TEST(test_match_x_variable) {
   ck_assert_double_eq(token.storage.number, 0);
 }
 
+START_TEST(test_do_not_match_x_variable_if_disallowed) {
+  const char *src = "x";
+  const char *iter = src;
+  const char *end = src + strlen(src);
+
+  match = tokenize_once(&iter, end, &token, false);
+
+  ck_assert_int_eq(match, false);
+  ck_assert_ptr_eq(iter, src);
+}
+
 START_TEST(test_do_nothing_if_not_expected_variable_found) {
   const char *src = "y";
   const char *iter = src;
   const char *end = src + strlen(src);
 
-  match = tokenize_once(&iter, end, &token);
+  match = tokenize_once(&iter, end, &token, true);
 
   ck_assert_int_eq(match, false);
   ck_assert_ptr_eq(iter, src);
@@ -227,7 +238,8 @@ Suite *make_suite_tokenize_once_function(void) {
   tcase_add_test(tc, test_do_not_match_number_if_two_points_found);
   tcase_add_test(tc, test_do_not_match_number_if_number_started_from_point);
   tcase_add_test(tc, test_do_not_match_number_if_number_ended_with_point);
-  tcase_add_test(tc, test_match_x_variable);
+  tcase_add_test(tc, test_match_x_variable_if_allowed);
+  tcase_add_test(tc, test_do_not_match_x_variable_if_disallowed);
   tcase_add_test(tc, test_do_nothing_if_not_expected_variable_found);
   return s;
 }

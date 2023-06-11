@@ -5,7 +5,7 @@
 
 namespace SmartCalc {
 
-void BaseCalc();
+void BaseCalc(bool *is_window_open);
 
 }  // namespace SmartCalc
 

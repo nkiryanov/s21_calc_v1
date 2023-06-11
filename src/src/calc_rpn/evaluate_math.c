@@ -78,16 +78,20 @@ static double process_rpn(calc_deque_t *rpn, double x_value) {
   return evaluated_result;
 }
 
-double evaluate_rpn(const char *math_string) {
+double evaluate_math(const char *math_string, double x) {
   expression_t expression = make_expression(math_string);
   calc_deque_t *tokens = deque_init();
 
-  tokenize_expression(&expression, tokens);
+  tokenize_expression(&expression, tokens, true);
   calc_deque_t *rpn = do_shunting_yard(tokens);
-  double result = process_rpn(rpn, 0);
+  double result = process_rpn(rpn, x);
 
   deque_destroy(&rpn);
   deque_destroy(&tokens);
 
   return result;
+}
+
+double evaluate_simple_math(const char *math_string) {
+  return evaluate_math(math_string, 1);
 }
