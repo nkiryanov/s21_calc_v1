@@ -7,8 +7,8 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "smart_calc/smart_calc_state.hpp"
-#include "smart_calc/base_calc.hpp"
-#include "smart_calc/plot_calc.hpp"
+#include "smart_calc/calculator.hpp"
+#include "smart_calc/plot_calculator.hpp"
 #define GL_SILENCE_DEPRECATION
 #include <GLFW/glfw3.h>  // Will drag system OpenGL headers
 
@@ -17,10 +17,13 @@ int SmartCalc::smartCalc() {
   SmartCalc::CalcState calc_state(1280, 720, "Calculator");
 
   // Our state
-  bool show_demo_window = false;
   bool show_calc_window = true;
   bool show_plot_window = true;
+  bool show_demo_window = false;
   ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+  SmartCalc::Calculator calculator_window(&show_calc_window);
+  SmartCalc::PlotCalculator plow_window(&show_plot_window);
 
   // Main loop
   while (!glfwWindowShouldClose(calc_state.window)) {
@@ -31,15 +34,15 @@ int SmartCalc::smartCalc() {
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
+    if (show_calc_window) calculator_window.Draw();
+    if (show_plot_window) plow_window.Draw();
     if (show_demo_window) ImGui::ShowDemoWindow(&show_demo_window);
-    if (show_calc_window) SmartCalc::BaseCalc(&show_calc_window);
-    if (show_plot_window) SmartCalc::PlotCalc(&show_plot_window);
 
     // 2. Show a simple window that we create ourselves. We use a Begin/End pair
     // to create a named window.
     {
 
-      ImGui::SetNextWindowPos(ImVec2(40, 70), ImGuiCond_FirstUseEver);
+      ImGui::SetNextWindowPos(ImVec2(10, 10), ImGuiCond_FirstUseEver);
       ImGui::SetNextWindowSize(ImVec2(300, 200), ImGuiCond_FirstUseEver);
       ImGui::Begin("Menu");
       ImGui::Checkbox("Calculator", &show_calc_window);

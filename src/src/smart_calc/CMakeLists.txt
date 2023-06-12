@@ -7,8 +7,9 @@ add_library(
     "smart_calc" STATIC
     smart_calc.cpp
     smart_calc_state.cpp
-    base_calc.cpp
-    plot_calc.cpp
+    base_calculator.cpp
+    calculator.cpp
+    plot_calculator.cpp
     ${HEADER_LIST}
 )
 
