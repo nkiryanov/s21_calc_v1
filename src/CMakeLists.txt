@@ -36,11 +36,10 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     endif()
 endif()
 
+add_subdirectory("extern")
 add_subdirectory("src/calc_rpn")
-add_subdirectory("src/imgui")
 add_subdirectory("src/smart_calc")
 add_subdirectory("apps")
-
 
 # Testing only available if this is the main app
 # Emergency override MODERN_CMAKE_BUILD_TESTING provided as well

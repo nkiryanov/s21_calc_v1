@@ -2,8 +2,6 @@ find_package("PkgConfig")
 
 pkg_check_modules(GLFW glfw3)
 
-message("!!! GLFW_FOUND ="  "${GLFW_FOUND}")
-
 # Look for GLFW include dir and libraries
 if(NOT GLFW_FOUND)
     if (GLFW_REQUIRED)

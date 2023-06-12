@@ -8,6 +8,7 @@ add_library(
     smart_calc.cpp
     smart_calc_state.cpp
     base_calc.cpp
+    plot_calc.cpp
     ${HEADER_LIST}
 )
 
@@ -18,5 +19,5 @@ target_include_directories(
 
 target_link_libraries(
     "smart_calc"
-    PRIVATE "imgui" "calc_rpn"
+    PRIVATE "imgui" "implot" "calc_rpn"
 )

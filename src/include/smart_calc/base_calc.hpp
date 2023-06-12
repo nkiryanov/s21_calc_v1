@@ -1,7 +1,7 @@
 #ifndef SMART_CALC_BASE_CALC_H_
 #define SMART_CALC_BASE_CALC_H_
 
-#include "imgui/imgui.h"
+#include "imgui.h"
 
 namespace SmartCalc {
 

@@ -1,8 +1,8 @@
 #include "smart_calc/smart_calc_state.hpp"
 
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw.h"
-#include "imgui/imgui_impl_opengl3.h"
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
 #define GL_SILENCE_DEPRECATION
 #include <GLFW/glfw3.h>
 #include <cstdio>
@@ -75,13 +75,6 @@ GLFWwindow* CalcState::CreateGlfwWindow(int width, int height,
   return window;
 }
 
-void CalcState::SetImguiContext() {
-  // Setup Dear ImGui context
-
-  IMGUI_CHECKVERSION();
-  ImGui::CreateContext();
-}
-
 ImGuiIO* CalcState::SetImguiIO() {
   ImGuiIO& io = ImGui::GetIO();
   (void)io;
@@ -111,7 +104,9 @@ CalcState::CalcState(int width, int height, const char* title) {
 
   window = CalcState::CreateGlfwWindow(width, height, title);
 
-  CalcState::SetImguiContext();
+  IMGUI_CHECKVERSION();
+  ImGui::CreateContext();
+  ImPlot::CreateContext();
   io = CalcState::SetImguiIO();
 
   CalcState::SetImguiStyle();
@@ -122,7 +117,9 @@ CalcState::CalcState(int width, int height, const char* title) {
 CalcState::~CalcState() {
   ImGui_ImplOpenGL3_Shutdown();
   ImGui_ImplGlfw_Shutdown();
+
   ImGui::DestroyContext();
+  ImPlot::DestroyContext();
 
   glfwDestroyWindow(window);
   glfwTerminate();

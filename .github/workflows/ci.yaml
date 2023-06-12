@@ -11,6 +11,8 @@ jobs:
         working-directory: src
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       - name: install dependencies
         run: >

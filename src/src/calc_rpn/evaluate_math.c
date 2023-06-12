@@ -78,18 +78,30 @@ static double process_rpn(calc_deque_t *rpn, double x_value) {
   return evaluated_result;
 }
 
-double evaluate_math(const char *math_string, double x) {
+void evaluate_math_batch(const char *math_string, const double *x_values,
+                         uint32_t x_count, double *y_values) {
   expression_t expression = make_expression(math_string);
   calc_deque_t *tokens = deque_init();
+  calc_deque_t *rpn = NULL;
 
   tokenize_expression(&expression, tokens, true);
-  calc_deque_t *rpn = do_shunting_yard(tokens);
-  double result = process_rpn(rpn, x);
-
-  deque_destroy(&rpn);
+  rpn = do_shunting_yard(tokens);
   deque_destroy(&tokens);
 
-  return result;
+  for (uint32_t i = 0; i != x_count; ++i) {
+    y_values[i] = process_rpn(rpn, x_values[i]);
+  }
+
+  deque_destroy(&rpn);
+}
+
+double evaluate_math(const char *math_string, double x) {
+  double x_values[1] = {x};
+  double y_values[1] = {0.0};
+
+  evaluate_math_batch(math_string, (double *)x_values, 1, (double *)y_values);
+
+  return y_values[0];
 }
 
 double evaluate_simple_math(const char *math_string) {

@@ -4,7 +4,7 @@ extern "C" {
 #include "calc_rpn/calc_rpn.h"
 }
 
-#include "imgui/imgui.h"
+#include "imgui.h"
 
 void SmartCalc::BaseCalc(bool *is_window_open) {
   static double result = 0.0;
