@@ -75,13 +75,6 @@ GLFWwindow* CalcState::CreateGlfwWindow(int width, int height,
   return window;
 }
 
-void CalcState::SetImguiContext() {
-  // Setup Dear ImGui context
-
-  IMGUI_CHECKVERSION();
-  ImGui::CreateContext();
-}
-
 ImGuiIO* CalcState::SetImguiIO() {
   ImGuiIO& io = ImGui::GetIO();
   (void)io;
@@ -111,7 +104,9 @@ CalcState::CalcState(int width, int height, const char* title) {
 
   window = CalcState::CreateGlfwWindow(width, height, title);
 
-  CalcState::SetImguiContext();
+  IMGUI_CHECKVERSION();
+  ImGui::CreateContext();
+  ImPlot::CreateContext();
   io = CalcState::SetImguiIO();
 
   CalcState::SetImguiStyle();
@@ -122,7 +117,9 @@ CalcState::CalcState(int width, int height, const char* title) {
 CalcState::~CalcState() {
   ImGui_ImplOpenGL3_Shutdown();
   ImGui_ImplGlfw_Shutdown();
+
   ImGui::DestroyContext();
+  ImPlot::DestroyContext();
 
   glfwDestroyWindow(window);
   glfwTerminate();

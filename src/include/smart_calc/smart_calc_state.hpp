@@ -4,6 +4,7 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
+#include "implot/implot.h"
 
 namespace SmartCalc {
 
@@ -19,7 +20,6 @@ struct CalcState {
   void SetGlfwWindowHint(char* glsl_version);
   void InitGlfw();
   GLFWwindow* CreateGlfwWindow(int width, int height, const char* title);
-  void SetImguiContext();
   ImGuiIO* SetImguiIO();
   void SetImguiStyle();
   void SetRendererBackends(GLFWwindow* window, const char* glsl_version);

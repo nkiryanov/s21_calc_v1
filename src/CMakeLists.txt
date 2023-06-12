@@ -38,6 +38,7 @@ endif()
 
 add_subdirectory("src/calc_rpn")
 add_subdirectory("src/imgui")
+add_subdirectory("src/implot")
 add_subdirectory("src/smart_calc")
 add_subdirectory("apps")
 
