@@ -7,8 +7,8 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "smart_calc/smart_calc_state.hpp"
-#include "smart_calc/base_calc.hpp"
-#include "smart_calc/plot_calc.hpp"
+#include "smart_calc/calculator.hpp"
+#include "smart_calc/plot_calculator.hpp"
 #define GL_SILENCE_DEPRECATION
 #include <GLFW/glfw3.h>  // Will drag system OpenGL headers
 
@@ -22,6 +22,8 @@ int SmartCalc::smartCalc() {
   bool show_plot_window = true;
   ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
+  SmartCalc::Calculator calculator_window(&show_calc_window);
+
   // Main loop
   while (!glfwWindowShouldClose(calc_state.window)) {
     glfwPollEvents();
@@ -32,7 +34,7 @@ int SmartCalc::smartCalc() {
     ImGui::NewFrame();
 
     if (show_demo_window) ImGui::ShowDemoWindow(&show_demo_window);
-    if (show_calc_window) SmartCalc::BaseCalc(&show_calc_window);
+    if (show_calc_window) calculator_window.Draw();
     if (show_plot_window) SmartCalc::PlotCalc(&show_plot_window);
 
     // 2. Show a simple window that we create ourselves. We use a Begin/End pair

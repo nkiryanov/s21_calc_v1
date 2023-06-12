@@ -1,4 +1,4 @@
-#include "smart_calc/plot_calc.hpp"
+#include "smart_calc/plot_calculator.hpp"
 
 extern "C" {
 #include "calc_rpn/calc_rpn.h"
