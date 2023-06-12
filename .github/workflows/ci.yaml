@@ -30,3 +30,11 @@ jobs:
 
       - name: check memory leaks
         run: make valgrind_tests 
+
+      - name: gcov coverage report
+        run: make coverage_report
+
+      - name: upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

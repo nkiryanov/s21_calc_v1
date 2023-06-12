@@ -15,13 +15,17 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     # Add custom cmake utils
     set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
 
-    # Testing only available if this is the main app
-    # Note this needs to be done in the main CMakeLists
-    # since it calls enable_testing, which must be in the
-    # main CMakeLists.
-    enable_testing()
-    set(BUILD_TESTING True)
-    list(APPEND CMAKE_CTEST_ARGUMENTS "--rerun-failed" "--output-on-failure")
+    # Testing only available if this is the main app and release option = Debug
+    if(CMAKE_BUILD_TYPE STREQUAL Debug)
+        set(BUILD_TESTING True)
+
+        add_compile_options(--coverage)
+        add_link_options(--coverage)
+
+        enable_testing()
+
+        list(APPEND CMAKE_CTEST_ARGUMENTS "--rerun-failed" "--output-on-failure")
+    endif(CMAKE_BUILD_TYPE STREQUAL Debug)
 
     # Set app wide compiller options
     add_compile_options(-Wall -Werror -Wextra)
@@ -41,9 +45,6 @@ add_subdirectory("src/calc_rpn")
 add_subdirectory("src/smart_calc")
 add_subdirectory("apps")
 
-# Testing only available if this is the main app
-# Emergency override MODERN_CMAKE_BUILD_TESTING provided as well
-if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR MODERN_CMAKE_BUILD_TESTING)
-   AND BUILD_TESTING)
-  add_subdirectory("tests/calc_rpn")
+if(BUILD_TESTING)
+    add_subdirectory("tests/calc_rpn")
 endif()
