@@ -3,9 +3,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw.h"
-#include "imgui/imgui_impl_opengl3.h"
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
 #include "smart_calc/smart_calc_state.hpp"
 #include "smart_calc/base_calc.hpp"
 #include "smart_calc/plot_calc.hpp"

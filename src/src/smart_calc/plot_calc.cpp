@@ -6,8 +6,8 @@ extern "C" {
 
 #include <cmath>
 
-#include "imgui/imgui.h"
-#include "implot/implot.h"
+#include "imgui.h"
+#include "implot.h"
 
 static void SetXValues(double x_values[], int array_length, double step,
                        double x_min) {
