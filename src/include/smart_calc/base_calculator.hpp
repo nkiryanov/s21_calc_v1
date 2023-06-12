@@ -5,13 +5,17 @@
 
 namespace SmartCalc {
 
+struct MathExpression {
+  char expression[255] = "";
+  size_t length = 0;
+  bool is_valid = 0;
+};
+
 class BaseCalculator {
  protected:
-  virtual bool ProcessMathInput(int input_max_len, char *math_expression,
-                                size_t *math_length);
-  virtual void DrawErrorMessageIfNeeded(size_t math_length, bool is_math_valid);
-  virtual bool ValidateMath(const char *math_expression, bool math_length,
-                            bool is_x_allowed);
+  virtual bool ProcessMathInput(int input_max_len, MathExpression &math);
+  virtual void DrawErrorMessageIfNeeded(MathExpression &math);
+  virtual void ValidateMath(MathExpression &math, bool is_x_allowed);
 };
 
 }  // namespace SmartCalc

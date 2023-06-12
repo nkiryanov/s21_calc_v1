@@ -8,21 +8,19 @@ extern "C" {
 
 namespace SmartCalc {
 
-bool BaseCalculator::ProcessMathInput(int input_max_len, char *math_expression,
-                                      size_t *math_length) {
+bool BaseCalculator::ProcessMathInput(int input_max_len, MathExpression &math) {
   bool is_evaluation_requested = false;
 
   is_evaluation_requested = ImGui::InputTextWithHint(
-      "##MathExpression", "enter math expression here", math_expression,
+      "##MathExpression", "enter math expression here", math.expression,
       input_max_len, ImGuiInputTextFlags_EnterReturnsTrue);
 
-  *math_length = strlen(math_expression);
+  math.length = strlen(math.expression);
   return is_evaluation_requested;
 }
 
-void BaseCalculator::DrawErrorMessageIfNeeded(size_t math_length,
-                                              bool is_math_valid) {
-  if (math_length != 0 && is_math_valid == false) {
+void BaseCalculator::DrawErrorMessageIfNeeded(MathExpression &math) {
+  if (math.length != 0 && math.is_valid == false) {
     ImVec4 red_color = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
     ImGui::TextColored(red_color, "The expression is not valid");
   } else {
@@ -30,15 +28,12 @@ void BaseCalculator::DrawErrorMessageIfNeeded(size_t math_length,
   }
 }
 
-bool BaseCalculator::ValidateMath(const char *math_expression, bool math_length,
-                                  bool is_x_allowed) {
-  bool is_math_valid = false;
+void BaseCalculator::ValidateMath(MathExpression &math, bool is_x_allowed) {
+  math.is_valid = false;
 
-  if (math_length != 0) {
-    is_math_valid = validate_math_expression(math_expression, is_x_allowed);
+  if (math.length != 0) {
+    math.is_valid = validate_math_expression(math.expression, is_x_allowed);
   }
-
-  return is_math_valid;
 }
 
 }  // namespace SmartCalc

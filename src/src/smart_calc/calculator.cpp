@@ -11,14 +11,14 @@ namespace SmartCalc {
 bool Calculator::ProcessEqualButtonWithResult() {
   bool is_evaluation_requested = false;
 
-  if (is_math_valid == false) ImGui::BeginDisabled();
+  if (math.is_valid == false) ImGui::BeginDisabled();
 
   ImGui::SameLine();
   is_evaluation_requested = ImGui::Button("=", ImVec2(50, 0));
   ImGui::SameLine();
   ImGui::Text("%lf", result);
 
-  if (is_math_valid == false) ImGui::EndDisabled();
+  if (math.is_valid == false) ImGui::EndDisabled();
 
   return is_evaluation_requested;
 }
@@ -44,21 +44,22 @@ void Calculator::DrawHelpText() {
       "Functions: cos, sin, tan, acos, asin, atan, sqrt, ln, log");
   ImGui::BulletText("Operators: +, -, *, /, ^, mod");
   ImGui::BulletText("Parentheses: ()");
+  ImGui::BulletText("Variables: x");
 }
 
 void Calculator::Draw() {
   bool is_evaluation_requested = false;
 
-  ImGui::SetNextWindowPos(ImVec2(350, 70), ImGuiCond_FirstUseEver);
+  ImGui::SetNextWindowPos(ImVec2(10, 220), ImGuiCond_FirstUseEver);
   ImGui::SetNextWindowSize(ImVec2(550, 350), ImGuiCond_FirstUseEver);
   ImGui::Begin("Calculator", is_calc_open);
   ImGui::SeparatorText("Math expression:");
 
-  is_evaluation_requested = Calculator::ProcessMathInput(
-      IM_ARRAYSIZE(math_expression), math_expression, &math_length);
+  is_evaluation_requested =
+      Calculator::ProcessMathInput(IM_ARRAYSIZE(math.expression), math);
   is_evaluation_requested |= Calculator::ProcessEqualButtonWithResult();
 
-  Calculator::DrawErrorMessageIfNeeded(math_length, is_math_valid);
+  Calculator::DrawErrorMessageIfNeeded(math);
   Calculator::ProcessXValueInput();
   Calculator::DrawHelpText();
 
@@ -66,10 +67,10 @@ void Calculator::Draw() {
 
   // This step done the last but it store it state in `Calculator` and it
   // will be used on next iteration
-  is_math_valid = ValidateMath(math_expression, math_length, is_x_allowed);
+  ValidateMath(math, is_x_allowed);
 
-  if (is_math_valid && is_evaluation_requested)
-    result = evaluate_math(math_expression, x_value);
+  if (math.is_valid && is_evaluation_requested)
+    result = evaluate_math(math.expression, x_value);
 }
 
 }  // namespace SmartCalc

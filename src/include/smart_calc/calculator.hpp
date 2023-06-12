@@ -8,9 +8,7 @@ namespace SmartCalc {
 
 class Calculator: public BaseCalculator {
   private:
-    char math_expression[255] = "";
-    size_t math_length = 0;
-    bool is_math_valid = false;
+    MathExpression math;
     bool is_x_allowed = false;
     double x_value = 0.0;
     double result = 0.0;
