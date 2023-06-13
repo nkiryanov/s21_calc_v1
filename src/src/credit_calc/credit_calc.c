@@ -19,7 +19,7 @@ static void get_differentiated_payments(const credit_t *credit,
   payments->month_count = term_in_months;
   payments->total_payed = 0.0;
 
-  for (int i = 0; i != MAX_PAYMENTS_COUNT && remaining > CREDIT_EPS; ++i) {
+  for (int i = 0; i != CREDIT_MAX_MONTHS && remaining > CREDIT_EPS; ++i) {
     long double tax_part_payment = remaining * month_rate;
     long double payment = main_part_payment + tax_part_payment;
 
@@ -52,7 +52,7 @@ static void get_annually_payments(const credit_t *credit,
   long double annuetet =
       remaining * month_rate / (1 - pow(1 + month_rate, -term_in_months));
 
-  for (int i = 0; i != MAX_PAYMENTS_COUNT && remaining > CREDIT_EPS; ++i) {
+  for (int i = 0; i != CREDIT_MAX_MONTHS && remaining > CREDIT_EPS; ++i) {
     long double tax_part_payment = remaining * month_rate;
     long double main_part_payment = annuetet - tax_part_payment;
     remaining -= main_part_payment;

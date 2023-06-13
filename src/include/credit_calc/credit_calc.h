@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define MAX_PAYMENTS_COUNT 2400  // Enough for 200 years credit
+#define CREDIT_MAX_MONTHS 2400  // Enough for 200 years credit
 #define CREDIT_EPS 10e-3
 
 enum CREDIT_TYPE {
@@ -33,7 +33,7 @@ typedef struct credit_monthly_payment_t {
 } credit_monthly_payment_t;
 
 typedef struct credit_payments_t {
-  credit_monthly_payment_t monthly_payments[MAX_PAYMENTS_COUNT];
+  credit_monthly_payment_t monthly_payments[CREDIT_MAX_MONTHS];
   int32_t month_count;
   double overpayment;
   double total_payed;
