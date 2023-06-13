@@ -4,11 +4,7 @@
 #define DEPOSIT_MAX_MONTHS 2400  // Enough for 200 years credit
 
 #include <stdbool.h>
-
-enum CREDIT_TYPE {
-  ANNUITY = 0,
-  DIFFERENTIATED = 1,
-};
+#include <stdint.h>
 
 enum DEPOSIT_PAYMENT_FREQUENCY {
   DEPOSIT_FREQUENCY_YEARS = 0,
@@ -17,7 +13,7 @@ enum DEPOSIT_PAYMENT_FREQUENCY {
 
 typedef struct deposit_t {
   double initial_amount;
-  double term;
+  int32_t term;
   double interest_rate;
   double tax_rate;
   bool is_capitalized;
