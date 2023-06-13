@@ -8,7 +8,7 @@ static credit_t credit = {
     .credit_type = DIFFERENTIATED,
     .credit_amount = 20000.0,
     .term = 3,
-    .term_type = YEARS,
+    .term_type = TERM_YEARS,
     .interest_rate = 12,
 };
 
@@ -33,9 +33,11 @@ void setup(void) {
 
 START_TEST(test_overall_payments_calculated_correctly) {
   credit_payments_t credit_payments;
+  bool is_valid = false;
 
-  get_differentiated_payments(&credit, &credit_payments);
+  is_valid = get_differentiated_payments(&credit, &credit_payments);
 
+  ck_assert_int_eq(is_valid, true);
   ck_assert_int_eq(credit_payments.month_count, 36);
   ck_assert_double_eq_tol(credit_payments.overpayment, 3700.0, EPS);
   ck_assert_double_eq_tol(credit_payments.total_payed, 23700.0, EPS);
@@ -58,7 +60,7 @@ START_TEST(test_monthly_payments_calculated_correctly) {
 
 START_TEST(test_term_in_months_calculated_ok) {
   credit_payments_t credit_payments;
-  credit.term_type = MONTH;
+  credit.term_type = TERM_MONTH;
   credit.term = 36;
 
   get_differentiated_payments(&credit, &credit_payments);
@@ -66,6 +68,16 @@ START_TEST(test_term_in_months_calculated_ok) {
   ck_assert_int_eq(credit_payments.month_count, 36);
   ck_assert_double_eq_tol(credit_payments.overpayment, 3700.0, EPS);
   ck_assert_double_eq_tol(credit_payments.total_payed, 23700.0, EPS);
+}
+
+START_TEST(test_term_return_false_if_data_invalid) {
+  credit_payments_t credit_payments;
+  bool is_valid = true;
+  credit.credit_amount = -12;
+
+  is_valid = get_differentiated_payments(&credit, &credit_payments);
+
+  ck_assert_int_eq(is_valid, false);
 }
 
 Suite *make_suite_get_differentiated_payments(void) {
@@ -78,6 +90,7 @@ Suite *make_suite_get_differentiated_payments(void) {
   tcase_add_test(tc, test_overall_payments_calculated_correctly);
   tcase_add_test(tc, test_monthly_payments_calculated_correctly);
   tcase_add_test(tc, test_term_in_months_calculated_ok);
+  tcase_add_test(tc, test_term_return_false_if_data_invalid);
 
   return s;
 }

@@ -1,16 +1,23 @@
 #include "credit_calc/credit_calc.h"
 
+#include <stdbool.h>
+
 static uint32_t get_month_remaining(const credit_t *credit) {
   uint32_t term_in_months = credit->term;
-  if (credit->term_type == YEARS) term_in_months = credit->term * 12;
+  if (credit->term_type == TERM_YEARS) term_in_months = credit->term * 12;
   return term_in_months;
 }
 
-void get_differentiated_payments(const credit_t *credit,
+bool get_differentiated_payments(const credit_t *credit,
                                  credit_payments_t *payments) {
+  if (credit->credit_amount <= 0 || credit->credit_type != DIFFERENTIATED ||
+      credit->interest_rate <= 0 || credit->term <= 0 ||
+      (credit->term_type != TERM_MONTH && credit->term_type != TERM_YEARS))
+    return false;
+
   long double month_interest_rate = credit->interest_rate / 12.0 / 100.0;
   long double remaining = credit->credit_amount;
-  uint32_t term_in_months = get_month_remaining(credit);
+  int32_t term_in_months = get_month_remaining(credit);
   long double main_part_payment = remaining / term_in_months;
 
   payments->month_count = term_in_months;
@@ -35,4 +42,6 @@ void get_differentiated_payments(const credit_t *credit,
   }
 
   payments->overpayment = payments->total_payed - credit->credit_amount;
+
+  return true;
 }
