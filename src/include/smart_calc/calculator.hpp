@@ -8,6 +8,7 @@ namespace SmartCalc {
 
 class Calculator: public BaseCalculator {
   private:
+    bool *is_calc_open;
     MathExpression math;
     bool is_x_allowed = false;
     double x_value = 0.0;
@@ -18,7 +19,6 @@ class Calculator: public BaseCalculator {
     void DrawHelpText();
 
   public:
-    bool *is_calc_open;
 
     Calculator(bool *is_window_open) {is_calc_open = is_window_open;};
     void Draw();

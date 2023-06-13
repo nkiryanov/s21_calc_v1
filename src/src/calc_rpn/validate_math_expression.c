@@ -74,27 +74,15 @@ static bool process_math_subexpression(calc_deque_t* numbers_stack,
         break;
       case FUNCTION:
       case UNARY_OPERATOR:
-        if (numbers_stack->size < 1) {
+        if (numbers_stack->size == 0) {
           is_subexpression_valid = false;
-        } else {
-          calc_token_t last_token = deque_pick_back(numbers_stack);
-
-          if (last_token.token_type == LEFT_PARENTHESIS) {
-            is_subexpression_valid = false;
-          }
         }
         break;
       case BINARY_OPERATOR:
         if (numbers_stack->size < 2) {
           is_subexpression_valid = false;
         } else {
-          calc_token_t first_last_token = deque_pop_back(numbers_stack);
-          calc_token_t second_last_token = deque_pick_back(numbers_stack);
-
-          if (first_last_token.token_type == LEFT_PARENTHESIS ||
-              second_last_token.token_type == LEFT_PARENTHESIS) {
-            is_subexpression_valid = false;
-          }
+          deque_pop_back(numbers_stack);
         }
         break;
       default:

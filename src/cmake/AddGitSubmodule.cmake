@@ -9,7 +9,7 @@ function(add_git_submodule SUBMODULE_NAME FILENAME_SUBMODULE_UPDATED)
     option(GIT_SUBMODULE "Check submodules during build" ON)
 
     if(GIT_SUBMODULE)
-      message(STATUS "Submodule update")
+      message(STATUS "Updating submodule ${SUBMODULE_NAME}")
       execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --recursive "${PROJECT_SOURCE_DIR}/extern/${SUBMODULE_NAME}"
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         RESULT_VARIABLE GIT_SUBMOD_RESULT)

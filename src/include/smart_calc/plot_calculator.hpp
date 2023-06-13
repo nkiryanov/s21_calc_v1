@@ -14,6 +14,7 @@ struct PlotAxis {
 
 class PlotCalculator : public BaseCalculator {
  private:
+  bool *is_plot_open;
   MathExpression math;
   PlotAxis y_axis;
   PlotAxis x_axis;
@@ -25,8 +26,6 @@ class PlotCalculator : public BaseCalculator {
   void DrawHelpMarker();
 
  public:
-  bool *is_plot_open;
-
   PlotCalculator(bool *is_window_open) {
     is_plot_open = is_window_open;
     SetAxisValues(x_axis);
