@@ -11,5 +11,5 @@ target_link_libraries(
 
 install(
     TARGETS "smart_calc.app"
-    RUNTIME DESTINATION "${PROJECT_SOURCE_DIR}"
+    RUNTIME DESTINATION ./
 )

@@ -9,6 +9,9 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     set(CMAKE_CXX_STANDARD 17)
     set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+    # Set install prefix if this is the main app
+    set(CMAKE_INSTALL_PREFIX "${PROJECT_SOURCE_DIR}/•install_dir/")
+
     # Let's nicely support folders in IDEs
     set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 

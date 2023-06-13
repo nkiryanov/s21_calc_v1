@@ -66,8 +66,9 @@ venv/
 # macOS garbage
 .DS_Store
 
-# Cmake build folder
+# Cmake build directory
 build/
+•install_dir
 
 # DearImgui data
 imgui.ini
