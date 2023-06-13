@@ -1,5 +1,3 @@
-include(FindCheckLib)
-
 file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${smart_calc_SOURCE_DIR}/tests/calc_rpn/*.h")
 
 add_executable("tests_calc_rpn"

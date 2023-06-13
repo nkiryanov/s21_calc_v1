@@ -16,7 +16,6 @@ target_include_directories(
     PUBLIC ../../include/
 )
 
-find_library(MATH_LIBRARY m)
 if(MATH_LIBRARY)
     target_link_libraries("calc_rpn" PUBLIC ${MATH_LIBRARY})
 endif()

@@ -44,10 +44,9 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 endif()
 
 add_subdirectory("extern")
-add_subdirectory("src/calc_rpn")
-add_subdirectory("src/smart_calc")
+add_subdirectory("src")
 add_subdirectory("apps")
 
 if(BUILD_TESTING)
-    add_subdirectory("tests/calc_rpn")
+    add_subdirectory("tests")
 endif()
