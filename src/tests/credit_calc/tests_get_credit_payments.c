@@ -18,7 +18,7 @@ void setup(void) {
   credit_payments.overpayment = 0.0;
   credit_payments.total_payed = 0.0;
 
-  for (int i = 0; i != MAX_PAYMENTS_COUNT; ++i) {
+  for (int i = 0; i != CREDIT_MAX_MONTHS; ++i) {
     credit_monthly_payment_t monthly_payment = {
         .payment = 0.0,
         .main_part_payment = 0.0,

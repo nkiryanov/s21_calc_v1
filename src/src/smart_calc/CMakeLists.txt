@@ -10,6 +10,7 @@ add_library(
     calculator.cpp
     plot_calculator.cpp
     credit_calculator.cpp
+    deposit_calculator.cpp
     ${HEADER_LIST}
 )
 
@@ -20,5 +21,5 @@ target_include_directories(
 
 target_link_libraries(
     "smart_calc"
-    PRIVATE "imgui" "implot" "calc_rpn" "credit_calc"
+    PRIVATE "imgui" "implot" "calc_rpn" "credit_calc" "deposit_calc"
 )

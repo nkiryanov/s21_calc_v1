@@ -17,7 +17,7 @@ bool CreditCalculator::VerifyAndCalculateCreditData() {
 
 void CreditCalculator::Draw() {
   ImGui::SetNextWindowPos(ImVec2(330, 10), ImGuiCond_FirstUseEver);
-  ImGui::SetNextWindowSize(ImVec2(550, 560), ImGuiCond_FirstUseEver);
+  ImGui::SetNextWindowSize(ImVec2(550, 360), ImGuiCond_FirstUseEver);
 
   ImGui::Begin("Credit Calculator", is_credit_open);
   CreditCalculator::DrawAndProceedCalculateButton();
@@ -35,7 +35,9 @@ void CreditCalculator::DrawInputData() {
   ImGui::SameLine();
   ImGui::SetNextItemWidth(150);
   ImGui::InputDouble("##$$$", &credit.credit_amount);
-  ImGui::Text("Credit amount:");
+  ImGui::Text("Term:");
+  ImGui::SameLine();
+  ImGui::Dummy(ImVec2(55, 0));
   ImGui::SameLine();
   ImGui::SetNextItemWidth(150);
   ImGui::InputInt("##term", (int *)(&credit.term));
@@ -59,7 +61,7 @@ void CreditCalculator::DrawInputData() {
 }
 
 void CreditCalculator::DrawAndProceedCalculateButton() {
-  if (ImGui::Button("Calculate !!!", ImVec2(150, 35))) {
+  if (ImGui::Button("Credit me !!!", ImVec2(150, 35))) {
     CreditCalculator::VerifyAndCalculateCreditData();
   }
 

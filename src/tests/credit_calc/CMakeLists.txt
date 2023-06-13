@@ -1,4 +1,4 @@
-file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${smart_calc_SOURCE_DIR}/tests/calc_credit/*.h")
+file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${smart_calc_SOURCE_DIR}/tests/credit_calc/*.h")
 
 add_executable("tests_credit_calc"
     tests_main.c
