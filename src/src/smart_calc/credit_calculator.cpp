@@ -9,7 +9,7 @@ extern "C" {
 namespace SmartCalc {
 
 bool CreditCalculator::VerifyAndCalculateCreditData() {
-  bool is_valid = get_differentiated_payments(&credit, &monthly_payments_data);
+  bool is_valid = get_credit_payments(&credit, &monthly_payments_data);
 
   is_credit_data_valid = is_valid;
   return is_valid;

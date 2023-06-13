@@ -39,7 +39,7 @@ typedef struct credit_payments_t {
   double total_payed;
 } credit_payments_t;
 
-bool get_differentiated_payments(const credit_t *credit,
+bool get_credit_payments(const credit_t *credit,
                                  credit_payments_t *payments);
 
 #endif  // CREDIT_CALC_CREDIT_CALC_H_

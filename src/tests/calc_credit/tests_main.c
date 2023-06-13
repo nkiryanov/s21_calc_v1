@@ -11,7 +11,7 @@ int main(void) {
   // We set NOFORK mode for debug ability and testing with valgrind
   srunner_set_fork_status(sr, CK_NOFORK);
 
-  srunner_add_suite(sr, make_suite_get_differentiated_payments());
+  srunner_add_suite(sr, make_suite_get_credits_payments());
 
   srunner_run_all(sr, CK_NORMAL);
   number_failed = srunner_ntests_failed(sr);

@@ -3,7 +3,7 @@ file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${smart_calc_SOURCE_DIR}/tests/calc_cre
 add_executable("tests_credit_calc"
     tests_main.c
     master_suite.c
-    tests_get_differentiated_payments.c
+    tests_get_credit_payments.c
     ${HEADER_LIST}
 )
 
